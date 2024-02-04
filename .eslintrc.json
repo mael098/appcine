@@ -1,3 +1,10 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "eslint:recommended"],
+  "plugins": ["@stylistic"],
+  "rules": {
+    "@stylistic/indent": ["error", 4],
+    "@stylistic/quotes": ["error", "single"],
+    "@stylistic/semi": ["error", "never"],
+    "@stylistic/no-trailing-spaces": "error"
+  }
 }
