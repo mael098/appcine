@@ -4,7 +4,6 @@ import { join } from 'node:path'
 
 const postsDirectory = join(process.cwd(), 'src', 'app', 'wiki', '(posts)')
 
-
 export function getAllPosts() {
     const slugs = readdirSync(postsDirectory)
     const posts = slugs.map((slug) => getPostBySlug(slug.replace('.mdx', '')) as Exclude<ReturnType<typeof getPostBySlug>, null>)
