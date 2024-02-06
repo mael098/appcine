@@ -10,14 +10,14 @@ export default function HomePage() {
                 </ul>
             </header>
             <main className="h-screen ">
-                    <div className="flex flex-grow  bg-amber-100 h-[85%]">
-                        <aside className=" flex-1 basis-56 bg-green-800 p-5 ">
-                            <p>Aside</p>
-                        </aside>
-                        <main className="flex-1  bg-cyan-500">
-                            <p>Main</p>
-                        </main>
-                    </div>
+                <div className="flex flex-grow  bg-amber-100 h-[85%]">
+                    <aside className=" flex-1 basis-56 bg-green-800 p-5 ">
+                        <p>Aside</p>
+                    </aside>
+                    <main className="flex-1  bg-cyan-500">
+                        <p>Main</p>
+                    </main>
+                </div>
                 <div className="">
                     <footer className="bg-lime-600 p-5">
                         <p>Footer</p>
