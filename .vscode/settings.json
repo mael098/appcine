@@ -1,0 +1,9 @@
+{
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true,
+    "eslint.format.enable": true,
+    "editor.stickyScroll.enabled": true,
+    "editor.stickyScroll.maxLineCount": 7,
+    "terminal.integrated.stickyScroll.enabled": true,
+    "workbench.tree.enableStickyScroll": true
+}
