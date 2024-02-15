@@ -1,4 +1,4 @@
-import Nav from '../components/Nav'
+import Nav from '../../components/Nav'
 export default function salaMovis() {
     return(
         <div className="h-screen w-screen overflow-x-hidden">
