@@ -3,36 +3,43 @@ export default function salaMovis() {
     return(
         <div className="h-screen w-screen overflow-x-hidden">
             <Nav/>
-            <main className="h-screen grid grid-cols-5">
+            <main className="grid grid-cols-5">
                 <div className='col-span-3'>
                     <img src="https://www.tuexpertomovil.com/wp-content/uploads/2021/06/fondos-de-pantalla-para-el-movil-de-harry-potter.jpg" alt="" className='' />
-                    <div className='col-span-2'>
-                        <div className='p-4 bg-lime-400'>
-                            <i>B</i>
-                            <h2>2h 23m</h2>
-                            <p>directora</p>
-                            <p>j.k. Rowling</p>
+                    <div className='col-span-1 grid grid-cols-4 h-2/5'>
+                        <div className='h-full col-span-1 flex flex-col items-center border-r-2 border-zinc-950'>
+                            <i className='bg-green-600 p-4 m-2'>B</i>
+                            <h2 className='text-nowrap text-2xl font-semibold m-2'>2h 23m</h2>
+                            <p className='m-2'>directora</p>
+                            <p className='m-2'>j.k. Rowling</p>
                         </div>
-                        <div className=''>
-                            <h2 className=''>harry potter y la piedra </h2>
+                        <div className='col-span-3 grid grid-cols-1 items-center'>
+                            <h2 className='font-semibold'>harry potter y la piedra</h2>
+                            <p className='col-span-1'>El día de su cumpleaños, Harry Potter descubre que es hijo de dos conocidos hechiceros, de los que ha heredado
+                                poderes mágicos. Debe asistir a una famosa escuela de magia y hechicería, donde entabla una amistad con dos jóvenes que se convertirán en sus compañeros de aventura. Durante su primer año
+                                en Hogwarts, descubre que un malévolo y poderoso mago llamado Voldemort
+                                está en busca de una piedra filosofal que alarga la vida de quien la posee.</p>
+
                         </div>
 
                     </div>
                 </div>
 
-                <div className='col-span-2 shrink w-full h-full flex flex-col justify-center items-center'>
-                    <h1 className='text-3xl'>horarios</h1>
-                    <h1 className='text-xl'>SUB</h1>
-                    <div className='flex flex-row'>
-                        <input type="checkbox" name="" id="" />
-                        <input type="checkbox" name="" id="" />
-                        <input type="checkbox" name="" id="" />
+                <div className='col-span-2 flex flex-col items-center m-11'>
+                    <h1 className='text-4xl font-semibold'>horarios</h1>
+                    <h1 className='text-xl m-6'>SUB</h1>
+                    <div className='grid grid-cols-3 gap-8'>
+                        <input type="time" name="" id=""/>
+                        <input type="time" name="" id=""/>
+                        <input type="time" name="" id=""/>
                     </div>
-                    <h1 className='text-xl'>ESP</h1>
-                    <div className='flex flex-row'>
-                        <input type="checkbox" name="" id="" />
-                        <input type="checkbox" name="" id="" />
-                        <input type="checkbox" name="" id="" />
+
+                    <h1 className='text-xl m-6'>ESP</h1>
+                    <div className='grid grid-cols-3 gap-8'>
+                        <input type="time" name="" id="" />
+                        <input type="time" name="" id="" />
+                        <input type="time" name="" id="" />
+
                     </div>
                 </div>
             </main>
