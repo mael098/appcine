@@ -1,21 +1,19 @@
 import { Database } from '@/lib/supabaseTypes'
-import Nav from '../../components/Nav'
+import Nav from '../../Nav'
 export default async function salaMovis({params}: {params: {slug: string}}) {
     const getFunctions = async () => {
         const res = await fetch(`${process.env.NEXT_URL}/api/movie/${params.slug}/functions`)
-        const data = await res.json()
-        return data as Database['public']['Tables']['functions']['Row'][]
+        return await res.json() as Database['public']['Functions']['get_available_functions_by_movie']['Returns']
     }
     const functions = await getFunctions()
-    console.log('f',functions)
+    const dubFunctions = functions.filter(f=>(f.format & 1))
+    const subFunctions = functions.filter(f=>(f.format & 1))
 
     const getMovie = async () => {
         const res = await fetch(`${process.env.NEXT_URL}/api/movie/${params.slug}`)
-        const data = await res.json()
-        return data as Database['public']['Tables']['movies']['Row']
+        return await res.json() as Database['public']['Tables']['movies']['Row']
     }
     const movie = await getMovie()
-    console.log('m',movie)
 
     return(
         <div className="h-screen w-screen overflow-x-hidden">
@@ -32,7 +30,7 @@ export default async function salaMovis({params}: {params: {slug: string}}) {
                         </div>
                         <div className='col-span-3 grid grid-cols-1 items-center'>
                             <h2 className='font-semibold'>{movie.name}</h2>
-                            <p className='col-span-1'>{movie.name}</p>
+                            <p className='col-span-1'>{movie.sinopsis}</p>
                         </div>
                     </div>
                 </div>
@@ -40,13 +38,11 @@ export default async function salaMovis({params}: {params: {slug: string}}) {
                     <h1 className='text-4xl font-semibold'>horarios</h1>
                     <h1 className='text-xl m-6'>SUB</h1>
                     <div className='grid grid-cols-3 gap-8'>
-                        {functions.map(f=><input type="time" name="" id="" defaultValue={new Date(f.start_at).getTime()} key={f.id}/>)}
+                        {subFunctions.map(f=><input type="time" name="" id="" defaultValue={new Date(f.start_at).getTime()} key={f.id}/>)}
                     </div>
                     <h1 className='text-xl m-6'>ESP</h1>
                     <div className='grid grid-cols-3 gap-8'>
-                        <input type="time" name="" id="" />
-                        <input type="time" name="" id="" />
-                        <input type="time" name="" id="" />
+                        {dubFunctions.map(f=><input type="time" name="" id="" defaultValue={new Date(f.start_at).getTime()} key={f.id}/>)}
                     </div>
                 </div>
             </main>

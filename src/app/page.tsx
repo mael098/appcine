@@ -1,5 +1,5 @@
-import { MovieCard } from './components/MovieCard'
-import Nav from './components/Nav'
+import { MovieCard } from './MovieCard'
+import Nav from './Nav'
 import { Database } from '@/lib/supabaseTypes'
 import '@/lib/db'
 export default async function Home() {

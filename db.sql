@@ -1,8 +1,30 @@
+-- drop all tables
+drop table if exists function_seats;
+drop table if exists movie_sales;
+drop table if exists function_seats;
+drop table if exists seats;
+drop table if exists movie_sales;
+drop table if exists functions;
+drop table if exists room;
+drop table if exists product_sales;
+drop table if exists products;
+drop table if exists transaction_sales;
+drop table if exists employees;
+drop table if exists memberships;
+drop table if exists registers;
+drop table if exists users;
+drop table if exists cinemas;
+drop table if exists movie_formats;
+drop table if exists movies;
+
+-- drop function get_available_functions_by_movie
+drop function get_available_functions_by_movie(text, timestamp without time zone);
+
 -- create tables
 create table
   movies (
     id text not null,
-    created_at timestamp with time zone not null default now(),
+    created_at timestamp without time zone not null default now(),
     name text not null,
     duration smallint not null,
     classification text not null,
@@ -10,15 +32,26 @@ create table
     director text not null,
     image text not null,
     cover text not null,
+    dubbed boolean not null default false,
     constraint movies_pkey primary key (id),
     constraint movies_name_key unique (name),
     constraint movies_duration_check check (duration > 0)
   );
 
 create table
+  movie_formats (
+    id text not null,
+    movie_id text not null,
+    format bigint not null,
+    constraint movie_formats_pkey primary key (id),
+    constraint movie_formats_movie_id_fkey foreign key (movie_id) references movies (id) on update cascade on delete cascade,
+    constraint movie_formats_format_check check (format >= 0)
+  );
+
+create table
   cinemas (
     id text not null,
-    created_at timestamp with time zone not null default now(),
+    created_at timestamp without time zone not null default now(),
     name text not null,
     latitude real not null,
     longitude real not null,
@@ -37,7 +70,7 @@ create table
 create table
   registers (
     id text not null,
-    created_at timestamp with time zone not null default now(),
+    created_at timestamp without time zone not null default now(),
     email text not null,
     password text not null,
     user_id text null,
@@ -50,7 +83,7 @@ create table
 create table
   memberships (
     curp text not null,
-    created_at timestamp with time zone not null default now(),
+    created_at timestamp without time zone not null default now(),
     name text not null,
     card text not null,
     user_id text null,
@@ -64,7 +97,7 @@ create table
 create table
   employees (
     id text not null,
-    created_at timestamp with time zone not null default now(),
+    created_at timestamp without time zone not null default now(),
     cinema_id text not null,
     name text not null,
     email text not null,
@@ -77,7 +110,7 @@ create table
 create table
   transaction_sales (
     id text not null,
-    created_at timestamp with time zone not null default now(),
+    created_at timestamp without time zone not null default now(),
     employee_id text null,
     user_id text null,
     cinema_id text null,
@@ -129,13 +162,13 @@ create table
 create table
   functions (
     id text not null,
-    movie_id text not null,
+    movie_format_id text not null,
     room_id text not null,
-    start_at timestamp with time zone not null,
+    start_at timestamp without time zone not null,
     kids_price real, 
     adults_price real,
     constraint functions_pkey primary key (id),
-    constraint functions_movie_id_fkey foreign key (movie_id) references movies (id) on update cascade on delete cascade,
+    constraint functions_movie_format_id_fkey foreign key (movie_format_id) references movie_formats (id) on update cascade on delete cascade,
     constraint functions_room_id_fkey foreign key (room_id) references room (id) on update cascade on delete cascade,
     constraint functions_start_at_check check (start_at > now()),
     constraint functions_kids_price_check check (kids_price >= 0),
@@ -186,6 +219,10 @@ insert into movies (id, name, duration, classification, director, image, cover, 
 insert into movies (id, name, duration, classification, director, image, cover, sinopsis) values ('4777586638983168', 'Inception', 148, 'PG-13', 'Christopher Nolan', 'inception.jpg', 'inceptionc.jpg', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.');
 insert into movies (id, name, duration, classification, director, image, cover, sinopsis) values ('4777759704354816', 'Interstellar', 169, 'PG-13', 'Christopher Nolan', 'interestelar.jpg', 'interestelarc.jpg', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity''s survival.');
 
+-- test movies_formats inserts
+insert into movie_formats (id, movie_id, format) values ('4776477102968833', '4776477102968832', 0);
+insert into movie_formats (id, movie_id, format) values ('4776477102968834', '4776477102968832', 1);
+
 -- test cinemas inserts
 insert into cinemas (id, name, latitude, longitude) values ('4776477102968837', 'Cinemex', 19.4326, -99.1332);
 insert into cinemas (id, name, latitude, longitude) values ('4776654085820411', 'Cinepolis', 19.4346, -99.1335);
@@ -194,5 +231,36 @@ insert into cinemas (id, name, latitude, longitude) values ('4776654085820411', 
 insert into room (id, adults_price, kids_price, name, cinema_id, description) values ('4776477102968842', 100, 50, 'Sala 1', '4776477102968837', 'Sala 1 normal');
 
 -- test functions inserts
-insert into functions (id, movie_id, room_id, start_at) values ('4776477102968835', '4776477102968832', '4776477102968842', '2024-03-05 23:59:59');
-insert into functions (id, movie_id, room_id, start_at) values ('4776477102968836', '4776477102968832', '4776477102968842', '2024-03-06 05:00:00');
+insert into functions (id, movie_format_id, room_id, start_at) values ('4776477102968835', '4776477102968833', '4776477102968842', '2024-03-05 23:59:59');
+insert into functions (id, movie_format_id, room_id, start_at) values ('4776477102968836', '4776477102968834', '4776477102968842', '2024-03-06 05:00:00');
+
+-- get functions by movie
+select f.id, f.start_at, m.name, m.duration, r.name as room, r.adults_price, r.kids_price, mf.format from functions 
+  f join movie_formats mf on f.movie_format_id = mf.id 
+  join movies m on mf.movie_id = m.id 
+  join room r on f.room_id = r.id 
+  where m.id = '4776477102968832' and f.start_at > now();
+
+-- function get_available_functions_by_movie
+create or replace function get_available_functions_by_movie (movie text, date timestamp without time zone) 
+returns table (
+  id text,
+  start_at timestamp without time zone,
+  name text,
+  duration smallint,
+  room text,
+  adults_price real,
+  kids_price real,
+  format bigint
+) as $$
+  begin
+    return query
+      select f.id, f.start_at, m.name, m.duration, r.name as room, r.adults_price, r.kids_price, mf.format 
+      from functions f
+      join movie_formats mf on f.movie_format_id = mf.id 
+      join movies m on mf.movie_id = m.id 
+      join room r on f.room_id = r.id 
+      where m.id = movie
+      and f.start_at > date;
+  end;
+$$ language plpgsql;
