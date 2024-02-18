@@ -1,14 +1,22 @@
 import { MovieCard } from './components/MovieCard'
 import Nav from './components/Nav'
+import { Database } from '@/lib/supabaseTypes'
+import '@/lib/db'
+export default async function Home() {
 
-export default function Home() {
+    const getMovies = async () => {
+        const res = await fetch(process.env.NEXT_URL+'/api/movies')
+        const data = await res.json()
+        return data as Database['public']['Tables']['movies']['Row'][]
+    }
+    const movies = await getMovies()
 
     return (
         <div className="h-screen w-screen overflow-x-hidden">
-            <Nav></Nav>
+            <Nav/>
             <main className="grid grid-cols-4 grid-rows gap-8">
-                {Array(13).fill(0).map((_,i)=> (
-                    <MovieCard key={i}/>
+                {movies.map(({name, id, image})=> (
+                    <MovieCard id={id} name={name} image={image} key={id}/>
                 ))}
             </main>
         </div>

@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function MovieCard() {
+export function MovieCard({name,id, image}: {name: string;id: string; image: string}) {
     return (
-        <Link href={'/function/2932293882938'}>
+        <Link href={`/function/${id}`}>
             <div className="flex flex-col items-center justify-center text-center">
-                <Image src='/image.jpeg' width={150} height={150} alt="Picture of the author" />
-                <h2 className='text-black text-2xl font-extrabold text-center'>Harry Potter: La Piedra Filosofal</h2>
+                <Image src={`/images/movies/${image}`} width={150} height={150} alt={`Picture of the ${name}`} />
+                <h2 className='text-black text-2xl font-extrabold text-center'>{name}</h2>
             </div>
         </Link>
     )
