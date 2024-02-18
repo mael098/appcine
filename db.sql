@@ -178,3 +178,9 @@ create table
     constraint function_seats_seat_id_fkey foreign key (seat_id) references seats (id) on update cascade on delete restrict,
     constraint function_seats_movie_sale_id_fkey foreign key (movie_sale_id) references movie_sales (id) on update cascade on delete cascade
   );
+
+-- test inserts
+insert into movies (id, name, duration, classification, director, image, cover) values ('4776477102968832', 'The Dark Knight', 152, 'PG-13', 'Christopher Nolan', 'the_dark_knight.jpg', '19837283782782');
+insert into movies (id, name, duration, classification, director, image, cover) values ('4776654085820416', 'The Dark Knight Rises', 164, 'PG-13', 'Christopher Nolan', 'the_dark_knight_rises.jpg', '19837283782782');
+insert into movies (id, name, duration, classification, director, image, cover) values ('4777586638983168', 'Inception', 148, 'PG-13', 'Christopher Nolan', 'inception.jpg.jpg', '19837283782782');
+insert into movies (id, name, duration, classification, director, image, cover) values ('4777759704354816', 'Interstellar', 169, 'PG-13', 'Christopher Nolan', 'interestelar.jpg', '19837283782782');
