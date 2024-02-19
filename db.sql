@@ -32,7 +32,6 @@ create table
     director text not null,
     image text not null,
     cover text not null,
-    dubbed boolean not null default false,
     constraint movies_pkey primary key (id),
     constraint movies_name_key unique (name),
     constraint movies_duration_check check (duration > 0)
@@ -214,32 +213,36 @@ create table
   );
 
 -- test movies inserts
-insert into movies (id, name, duration, classification, director, image, cover, sinopsis) values ('4776477102968832', 'The Dark Knight', 152, 'PG-13', 'Christopher Nolan', 'the_dark_knight.jpg', 'the_dark_knightc.jpg', 'Batman, Gordon and Harvey Dent are forced to deal with the chaos unleashed by an anarchist mastermind known only as the Joker, as it drives each of them to their limits.');
-insert into movies (id, name, duration, classification, director, image, cover, sinopsis) values ('4776654085820416', 'The Dark Knight Rises', 164, 'PG-13', 'Christopher Nolan', 'the_dark_knight_rises.jpg', 'the_dark_knight_risesc.jpg', 'Eight years after the Joker''s reign of anarchy, Batman, with the help of the enigmatic Catwoman');
-insert into movies (id, name, duration, classification, director, image, cover, sinopsis) values ('4777586638983168', 'Inception', 148, 'PG-13', 'Christopher Nolan', 'inception.jpg', 'inceptionc.jpg', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.');
-insert into movies (id, name, duration, classification, director, image, cover, sinopsis) values ('4777759704354816', 'Interstellar', 169, 'PG-13', 'Christopher Nolan', 'interestelar.jpg', 'interestelarc.jpg', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity''s survival.');
+insert into movies (id, name, duration, classification, director, image, cover, sinopsis) 
+  values ('4776477102968832', 'The Dark Knight', 152, 'PG-13', 'Christopher Nolan', 'the_dark_knight.jpg', 'the_dark_knightc.jpg', 'Batman, Gordon and Harvey Dent are forced to deal with the chaos unleashed by an anarchist mastermind known only as the Joker, as it drives each of them to their limits.');
+insert into movies (id, name, duration, classification, director, image, cover, sinopsis) 
+  values ('4776654085820416', 'The Dark Knight Rises', 164, 'PG-13', 'Christopher Nolan', 'the_dark_knight_rises.jpg', 'the_dark_knight_risesc.jpg', 'Eight years after the Joker''s reign of anarchy, Batman, with the help of the enigmatic Catwoman');
+insert into movies (id, name, duration, classification, director, image, cover, sinopsis) 
+  values ('4777586638983168', 'Inception', 148, 'PG-13', 'Christopher Nolan', 'inception.jpg', 'inceptionc.jpg', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.');
+insert into movies (id, name, duration, classification, director, image, cover, sinopsis) 
+  values ('4777759704354816', 'Interstellar', 169, 'PG-13', 'Christopher Nolan', 'interestelar.jpg', 'interestelarc.jpg', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity''s survival.');
 
 -- test movies_formats inserts
-insert into movie_formats (id, movie_id, format) values ('4776477102968833', '4776477102968832', 0);
-insert into movie_formats (id, movie_id, format) values ('4776477102968834', '4776477102968832', 1);
+insert into movie_formats (id, movie_id, format) 
+  values ('4776477102968833', '4776477102968832', 0);
+insert into movie_formats (id, movie_id, format) 
+  values ('4776477102968834', '4776477102968832', 1);
 
 -- test cinemas inserts
-insert into cinemas (id, name, latitude, longitude) values ('4776477102968837', 'Cinemex', 19.4326, -99.1332);
-insert into cinemas (id, name, latitude, longitude) values ('4776654085820411', 'Cinepolis', 19.4346, -99.1335);
+insert into cinemas (id, name, latitude, longitude) 
+  values ('4776477102968837', 'Cinemex', 19.4326, -99.1332);
+insert into cinemas (id, name, latitude, longitude) 
+  values ('4776654085820411', 'Cinepolis', 19.4346, -99.1335);
 
 -- test room inserts
-insert into room (id, adults_price, kids_price, name, cinema_id, description) values ('4776477102968842', 100, 50, 'Sala 1', '4776477102968837', 'Sala 1 normal');
+insert into room (id, adults_price, kids_price, name, cinema_id, description) 
+  values ('4776477102968842', 100, 50, 'Sala 1', '4776477102968837', 'Sala 1 normal');
 
 -- test functions inserts
-insert into functions (id, movie_format_id, room_id, start_at) values ('4776477102968835', '4776477102968833', '4776477102968842', '2024-03-05 23:59:59');
-insert into functions (id, movie_format_id, room_id, start_at) values ('4776477102968836', '4776477102968834', '4776477102968842', '2024-03-06 05:00:00');
-
--- get functions by movie
-select f.id, f.start_at, m.name, m.duration, r.name as room, r.adults_price, r.kids_price, mf.format from functions 
-  f join movie_formats mf on f.movie_format_id = mf.id 
-  join movies m on mf.movie_id = m.id 
-  join room r on f.room_id = r.id 
-  where m.id = '4776477102968832' and f.start_at > now();
+insert into functions (id, movie_format_id, room_id, start_at) 
+  values ('4776477102968835', '4776477102968833', '4776477102968842', '2024-03-05 23:59:59');
+insert into functions (id, movie_format_id, room_id, start_at) 
+  values ('4776477102968836', '4776477102968834', '4776477102968842', '2024-03-06 05:00:00');
 
 -- function get_available_functions_by_movie
 create or replace function get_available_functions_by_movie (movie text, date timestamp without time zone) 
