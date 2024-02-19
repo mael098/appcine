@@ -7,7 +7,7 @@ export default async function salaMovis({params}: {params: {slug: string}}) {
     }
     const functions = await getFunctions()
     const dubFunctions = functions.filter(f=>(f.format & 1))
-    const subFunctions = functions.filter(f=>(f.format & 1))
+    const subFunctions = functions.filter(f=>!(f.format & 1))
 
     const getMovie = async () => {
         const res = await fetch(`${process.env.NEXT_URL}/api/movie/${params.slug}`)
@@ -38,11 +38,11 @@ export default async function salaMovis({params}: {params: {slug: string}}) {
                     <h1 className='text-4xl font-semibold'>horarios</h1>
                     <h1 className='text-xl m-6'>SUB</h1>
                     <div className='grid grid-cols-3 gap-8'>
-                        {subFunctions.map(f=><input type="time" name="" id="" defaultValue={new Date(f.start_at).getTime()} key={f.id}/>)}
+                        {subFunctions.map(f=><input type="time" defaultValue={`${new Date(f.start_at).getHours().toString().padStart(2,'0')}:${new Date(f.start_at).getMinutes().toString().padStart(2,'0')}`} key={f.id}/>)}
                     </div>
                     <h1 className='text-xl m-6'>ESP</h1>
                     <div className='grid grid-cols-3 gap-8'>
-                        {dubFunctions.map(f=><input type="time" name="" id="" defaultValue={new Date(f.start_at).getTime()} key={f.id}/>)}
+                        {dubFunctions.map(f=><input type="time" defaultValue={`${new Date(f.start_at).getHours().toString().padStart(2,'0')}:${new Date(f.start_at).getMinutes().toString().padStart(2,'0')}`} key={f.id}/>)}
                     </div>
                 </div>
             </main>
