@@ -5,7 +5,7 @@ import '@/lib/db'
 export default async function Home() {
 
     const getMovies = async () => {
-        const res = await fetch(process.env.NEXT_URL+'/api/movies')
+        const res = await fetch(process.env.VERCEL_URL+'/api/movies')
         const data = await res.json()
         return data as Database['public']['Tables']['movies']['Row'][]
     }

@@ -3,7 +3,7 @@ import { Database } from '@/lib/supabaseTypes'
 import Nav from '../../Nav'
 export default async function salaMovis({params}: {params: {slug: string}}) {
     const getFunctions = async () => {
-        const res = await fetch(`${process.env.NEXT_URL}/api/movie/${params.slug}/functions`)
+        const res = await fetch(`${process.env.VERCEL_URL}/api/movie/${params.slug}/functions`)
         return await res.json() as Database['public']['Functions']['get_available_functions_by_movie']['Returns']
     }
     const functions = await getFunctions()
@@ -11,7 +11,7 @@ export default async function salaMovis({params}: {params: {slug: string}}) {
     const subFunctions = functions.filter(f=>!(f.format & 1))
 
     const getMovie = async () => {
-        const res = await fetch(`${process.env.NEXT_URL}/api/movie/${params.slug}`)
+        const res = await fetch(`${process.env.VERCEL_URL}/api/movie/${params.slug}`)
         return await res.json() as Database['public']['Tables']['movies']['Row']
     }
     const movie = await getMovie()
