@@ -1,6 +1,5 @@
 import withMDX from '@next/mdx'
 import remarkGfm from 'remark-gfm'
-import { NEXT_URL } from '@/lib/constants'
 
 export default withMDX({
     options: {
@@ -10,11 +9,11 @@ export default withMDX({
     rewrites: async () => ([
         {
             source: '/images/movies/:path*',
-            destination: `${NEXT_URL}/storage/v1/object/public/movies/images/:path*`
+            destination: `http${process.env.VERCEL_ENV==='development'?'':'s'}://${process.env.VERCEL_URL}/storage/v1/object/public/movies/images/:path*`
         },
         {
             source: '/images/covers/:path*',
-            destination: `${NEXT_URL}/storage/v1/object/public/movies/covers/:path*`
+            destination: `http${process.env.VERCEL_ENV==='development'?'':'s'}://${process.env.VERCEL_URL}/storage/v1/object/public/movies/covers/:path*`
         }
     ]),
     pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],

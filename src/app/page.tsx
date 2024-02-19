@@ -6,6 +6,7 @@ import { NEXT_URL } from '@/lib/constants'
 export default async function Home() {
 
     const getMovies = async () => {
+        console.log(NEXT_URL+'/api/movies')
         const res = await fetch(NEXT_URL+'/api/movies')
         const data = await res.json()
         return data as Database['public']['Tables']['movies']['Row'][]
