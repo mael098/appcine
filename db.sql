@@ -18,7 +18,7 @@ drop table if exists movie_formats;
 drop table if exists movies;
 
 -- drop function get_available_functions_by_movie
-drop function get_available_functions_by_movie(text, timestamp without time zone);
+drop function if exists get_available_functions_by_movie(text, timestamp without time zone);
 
 -- create tables
 create table
@@ -255,7 +255,14 @@ returns table (
 ) as $$
   begin
     return query
-      select f.id, f.start_at, m.name, m.duration, r.name as room, r.adults_price, r.kids_price, mf.format 
+      select f.id, 
+        f.start_at, 
+        m.name, 
+        m.duration, 
+        r.name as room, 
+        coalesce(f.adults_price, r.adults_price) as adults_price, 
+        coalesce(f.kids_price, r.kids_price) as kids_price, 
+        mf.format 
       from functions f
       join movie_formats mf on f.movie_format_id = mf.id 
       join movies m on mf.movie_id = m.id 
