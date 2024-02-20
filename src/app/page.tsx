@@ -8,8 +8,7 @@ import { notFound } from 'next/navigation'
 export default async function Home() {
 
     const moviesQuery = await db
-        .from('movies')
-        .select('*')
+        .rpc('get_movie_listings')
 
     if (moviesQuery.error) {
         console.error(moviesQuery.error)

@@ -120,45 +120,12 @@ export interface Database {
                     }
                 ]
             }
-            function_seats: {
-                Row: {
-                    disponible: boolean
-                    id: string
-                    movie_sale_id: string
-                    seat_id: string
-                }
-                Insert: {
-                    disponible?: boolean
-                    id: string
-                    movie_sale_id: string
-                    seat_id: string
-                }
-                Update: {
-                    disponible?: boolean
-                    id?: string
-                    movie_sale_id?: string
-                    seat_id?: string
-                }
-                Relationships: [
-                    {
-                        foreignKeyName: 'function_seats_movie_sale_id_fkey'
-                        columns: ['movie_sale_id']
-                        referencedRelation: 'movie_sales'
-                        referencedColumns: ['id']
-                    },
-                    {
-                        foreignKeyName: 'function_seats_seat_id_fkey'
-                        columns: ['seat_id']
-                        referencedRelation: 'seats'
-                        referencedColumns: ['id']
-                    }
-                ]
-            }
             functions: {
                 Row: {
                     adults_price: number | null
                     id: string
                     kids_price: number | null
+                    max_seats: number | null
                     movie_format_id: string
                     room_id: string
                     start_at: string
@@ -167,6 +134,7 @@ export interface Database {
                     adults_price?: number | null
                     id: string
                     kids_price?: number | null
+                    max_seats?: number | null
                     movie_format_id: string
                     room_id: string
                     start_at: string
@@ -175,6 +143,7 @@ export interface Database {
                     adults_price?: number | null
                     id?: string
                     kids_price?: number | null
+                    max_seats?: number | null
                     movie_format_id?: string
                     room_id?: string
                     start_at?: string
@@ -254,23 +223,20 @@ export interface Database {
                 Row: {
                     adults: number
                     function_id: string
-                    id: string
                     kids: number
-                    transaction_id: string
+                    sale_id: string
                 }
                 Insert: {
                     adults: number
                     function_id: string
-                    id: string
                     kids: number
-                    transaction_id: string
+                    sale_id: string
                 }
                 Update: {
                     adults?: number
                     function_id?: string
-                    id?: string
                     kids?: number
-                    transaction_id?: string
+                    sale_id?: string
                 }
                 Relationships: [
                     {
@@ -280,9 +246,9 @@ export interface Database {
                         referencedColumns: ['id']
                     },
                     {
-                        foreignKeyName: 'movie_sales_transaction_id_fkey'
-                        columns: ['transaction_id']
-                        referencedRelation: 'transaction_sales'
+                        foreignKeyName: 'movie_sales_sale_id_fkey'
+                        columns: ['sale_id']
+                        referencedRelation: 'sales'
                         referencedColumns: ['id']
                     }
                 ]
@@ -293,7 +259,6 @@ export interface Database {
                     cover: string
                     created_at: string
                     director: string
-                    dubbed: boolean
                     duration: number
                     id: string
                     image: string
@@ -305,7 +270,6 @@ export interface Database {
                     cover: string
                     created_at?: string
                     director: string
-                    dubbed?: boolean
                     duration: number
                     id: string
                     image: string
@@ -317,7 +281,6 @@ export interface Database {
                     cover?: string
                     created_at?: string
                     director?: string
-                    dubbed?: boolean
                     duration?: number
                     id?: string
                     image?: string
@@ -328,22 +291,19 @@ export interface Database {
             }
             product_sales: {
                 Row: {
-                    id: string
                     product_id: string
                     quantity: number
-                    transaction_id: string
+                    sale_id: string
                 }
                 Insert: {
-                    id: string
                     product_id: string
                     quantity: number
-                    transaction_id: string
+                    sale_id: string
                 }
                 Update: {
-                    id?: string
                     product_id?: string
                     quantity?: number
-                    transaction_id?: string
+                    sale_id?: string
                 }
                 Relationships: [
                     {
@@ -353,9 +313,9 @@ export interface Database {
                         referencedColumns: ['id']
                     },
                     {
-                        foreignKeyName: 'product_sales_transaction_id_fkey'
-                        columns: ['transaction_id']
-                        referencedRelation: 'transaction_sales'
+                        foreignKeyName: 'product_sales_sale_id_fkey'
+                        columns: ['sale_id']
+                        referencedRelation: 'sales'
                         referencedColumns: ['id']
                     }
                 ]
@@ -456,6 +416,68 @@ export interface Database {
                     }
                 ]
             }
+            sale_seats: {
+                Row: {
+                    sale_id: string
+                    seat_id: string
+                }
+                Insert: {
+                    sale_id: string
+                    seat_id: string
+                }
+                Update: {
+                    sale_id?: string
+                    seat_id?: string
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: 'sale_seats_sale_id_fkey'
+                        columns: ['sale_id']
+                        referencedRelation: 'sales'
+                        referencedColumns: ['id']
+                    },
+                    {
+                        foreignKeyName: 'sale_seats_seat_id_fkey'
+                        columns: ['seat_id']
+                        referencedRelation: 'seats'
+                        referencedColumns: ['id']
+                    }
+                ]
+            }
+            sales: {
+                Row: {
+                    created_at: string
+                    employee_id: string | null
+                    id: string
+                    user_id: string | null
+                }
+                Insert: {
+                    created_at?: string
+                    employee_id?: string | null
+                    id: string
+                    user_id?: string | null
+                }
+                Update: {
+                    created_at?: string
+                    employee_id?: string | null
+                    id?: string
+                    user_id?: string | null
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: 'sales_employee_id_fkey'
+                        columns: ['employee_id']
+                        referencedRelation: 'employees'
+                        referencedColumns: ['id']
+                    },
+                    {
+                        foreignKeyName: 'sales_user_id_fkey'
+                        columns: ['user_id']
+                        referencedRelation: 'users'
+                        referencedColumns: ['id']
+                    }
+                ]
+            }
             seats: {
                 Row: {
                     disponible: boolean
@@ -486,49 +508,6 @@ export interface Database {
                         foreignKeyName: 'seats_room_id_fkey'
                         columns: ['room_id']
                         referencedRelation: 'room'
-                        referencedColumns: ['id']
-                    }
-                ]
-            }
-            transaction_sales: {
-                Row: {
-                    cinema_id: string | null
-                    created_at: string
-                    employee_id: string | null
-                    id: string
-                    user_id: string | null
-                }
-                Insert: {
-                    cinema_id?: string | null
-                    created_at?: string
-                    employee_id?: string | null
-                    id: string
-                    user_id?: string | null
-                }
-                Update: {
-                    cinema_id?: string | null
-                    created_at?: string
-                    employee_id?: string | null
-                    id?: string
-                    user_id?: string | null
-                }
-                Relationships: [
-                    {
-                        foreignKeyName: 'transaction_sales_cinema_id_fkey'
-                        columns: ['cinema_id']
-                        referencedRelation: 'cinemas'
-                        referencedColumns: ['id']
-                    },
-                    {
-                        foreignKeyName: 'transaction_sales_employee_id_fkey'
-                        columns: ['employee_id']
-                        referencedRelation: 'employees'
-                        referencedColumns: ['id']
-                    },
-                    {
-                        foreignKeyName: 'transaction_sales_user_id_fkey'
-                        columns: ['user_id']
-                        referencedRelation: 'users'
                         referencedColumns: ['id']
                     }
                 ]
@@ -567,6 +546,20 @@ export interface Database {
                     adults_price: number
                     kids_price: number
                     format: number
+                }[]
+            }
+            get_movie_listings: {
+                Args: Record<PropertyKey, never>
+                Returns: {
+                    classification: string
+                    cover: string
+                    created_at: string
+                    director: string
+                    duration: number
+                    id: string
+                    image: string
+                    name: string
+                    sinopsis: string
                 }[]
             }
         }

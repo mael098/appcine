@@ -20,6 +20,7 @@ drop table if exists movies;
 
 -- drop function get_available_functions_by_movie
 drop function if exists get_available_functions_by_movie(text, timestamp without time zone);
+drop function if exists get_movie_listings;
 
 -- create tables
 create table
@@ -269,5 +270,17 @@ returns table (
       join room on functions.room_id = room.id 
       where movies.id = movie
       and functions.start_at > date;
+  end;
+$$ language plpgsql;
+
+-- function get_movie_listings returns table movies
+create or replace function get_movie_listings ()
+returns setof movies as $$
+  begin
+    return query
+      select movies.* from movies
+      join movie_formats on movies.id = movie_formats.movie_id
+      join functions on movie_formats.id = functions.movie_format_id
+      where functions.start_at > now();
   end;
 $$ language plpgsql;
