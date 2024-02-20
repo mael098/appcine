@@ -10,6 +10,5 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 export const supabase = createClient<Database>(supabaseUrl, supabaseKey)
-// const snowflake = new Snowflake(snowflakeDate)
-// console.log(snowflake.generate()+'')
 
+export default supabase

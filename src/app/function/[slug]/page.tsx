@@ -1,24 +1,34 @@
 import Image from 'next/image'
-import { Database } from '@/lib/supabaseTypes'
-import { supabase } from '@/lib/db'
 import Nav from '../../Nav'
-import { NEXT_URL } from '@/lib/constants'
+import db from '@/lib/db'
 import { notFound } from 'next/navigation'
 
 export default async function salaMovis({params}: {params: {slug: string}}) {
 
-    const functionsQuery = await supabase.rpc('get_available_functions_by_movie', { date: new Date().toISOString(), movie: params.slug })
-    if (functionsQuery.error)  {return notFound()}
+    const functionsQuery = await db
+        .rpc('get_available_functions_by_movie', {
+            date: new Date().toISOString(),
+            movie: params.slug
+        })
+    if (functionsQuery.error) {
+        console.error(functionsQuery.error)
+        return notFound()
+    }
 
     const functions = functionsQuery.data
     const dubFunctions = functions.filter(f=>(f.format & 1))
     const subFunctions = functions.filter(f=>!(f.format & 1))
 
-    const getMovie = async () => {
-        const res = await fetch(`${NEXT_URL}/api/movie/${params.slug}`)
-        return await res.json() as Database['public']['Tables']['movies']['Row']
+    const moviesQuery = await db
+        .from('movies')
+        .select('*')
+        .eq('id', params.slug)
+        .single()
+    if (moviesQuery.error) {
+        console.error(moviesQuery.error)
+        return notFound()
     }
-    const movie = await getMovie()
+    const movie = moviesQuery.data
 
     return(
         <div className="h-screen w-screen overflow-x-hidden">
