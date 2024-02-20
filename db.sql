@@ -1,14 +1,15 @@
 -- drop all tables
-drop table if exists function_seats;
+drop table if exists sale_seats;
+drop table if exists sale_seats;
 drop table if exists movie_sales;
-drop table if exists function_seats;
 drop table if exists seats;
 drop table if exists movie_sales;
 drop table if exists functions;
 drop table if exists room;
 drop table if exists product_sales;
-drop table if exists products;
 drop table if exists transaction_sales;
+drop table if exists products;
+drop table if exists sales;
 drop table if exists employees;
 drop table if exists memberships;
 drop table if exists registers;
@@ -107,16 +108,14 @@ create table
   );
 
 create table
-  transaction_sales (
+  sales (
     id text not null,
     created_at timestamp without time zone not null default now(),
     employee_id text null,
     user_id text null,
-    cinema_id text null,
-    constraint transaction_sales_pkey primary key (id),
-    constraint transaction_sales_employee_id_fkey foreign key (employee_id) references employees (id) on update cascade on delete restrict,
-    constraint transaction_sales_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete set null,
-    constraint transaction_sales_cinema_id_fkey foreign key (cinema_id) references cinemas (id) on update cascade on delete cascade
+    constraint sales_pkey primary key (id),
+    constraint sales_employee_id_fkey foreign key (employee_id) references employees (id) on update cascade on delete restrict,
+    constraint sales_user_id_fkey foreign key (user_id) references users (id) on update cascade on delete set null
   );
 
 create table
@@ -134,13 +133,12 @@ create table
 
 create table
   product_sales (
-    id text not null,
     product_id text not null,
-    transaction_id text not null,
+    sale_id text not null,
     quantity smallint not null,
-    constraint product_sales_pkey primary key (id),
+    constraint product_sales_pkey primary key (product_id, sale_id),
     constraint product_sales_product_id_fkey foreign key (product_id) references products (id) on update cascade on delete restrict,
-    constraint product_sales_transaction_id_fkey foreign key (transaction_id) references transaction_sales (id) on update cascade on delete cascade,
+    constraint product_sales_sale_id_fkey foreign key (sale_id) references sales (id) on update cascade on delete cascade,
     constraint product_sales_quantity_check check (quantity > 0)
   );
 
@@ -164,14 +162,16 @@ create table
     movie_format_id text not null,
     room_id text not null,
     start_at timestamp without time zone not null,
-    kids_price real, 
+    kids_price real,
     adults_price real,
+    max_seats smallint,
     constraint functions_pkey primary key (id),
     constraint functions_movie_format_id_fkey foreign key (movie_format_id) references movie_formats (id) on update cascade on delete cascade,
     constraint functions_room_id_fkey foreign key (room_id) references room (id) on update cascade on delete cascade,
     constraint functions_start_at_check check (start_at > now()),
     constraint functions_kids_price_check check (kids_price >= 0),
-    constraint functions_adults_price_check check (adults_price >= 0)
+    constraint functions_adults_price_check check (adults_price >= 0),
+    constraint functions_max_seats_check check (max_seats > 0)
   );
 
 create table
@@ -189,27 +189,24 @@ create table
 
 create table
   movie_sales (
-    id text not null,
     function_id text not null,
-    transaction_id text not null,
+    sale_id text not null,
     adults smallint not null,
     kids smallint not null,
-    constraint movie_sales_pkey primary key (id),
+    constraint movie_sales_pkey primary key (function_id, sale_id),
     constraint movie_sales_function_id_fkey foreign key (function_id) references functions (id) on update cascade on delete restrict,
-    constraint movie_sales_transaction_id_fkey foreign key (transaction_id) references transaction_sales (id) on update cascade on delete cascade,
+    constraint movie_sales_sale_id_fkey foreign key (sale_id) references sales (id) on update cascade on delete cascade,
     constraint movie_sales_adults_check check (adults >= 0),
     constraint movie_sales_kids_check check (kids >= 0)
   );
 
 create table
-  function_seats (
-    id text not null,
+  sale_seats (
     seat_id text not null,
-    movie_sale_id text not null,
-    disponible boolean not null default true,
-    constraint function_seats_pkey primary key (id),
-    constraint function_seats_seat_id_fkey foreign key (seat_id) references seats (id) on update cascade on delete restrict,
-    constraint function_seats_movie_sale_id_fkey foreign key (movie_sale_id) references movie_sales (id) on update cascade on delete cascade
+    sale_id text null,
+    constraint sale_seats_pkey primary key (seat_id, sale_id),
+    constraint sale_seats_seat_id_fkey foreign key (seat_id) references seats (id) on update cascade on delete restrict,
+    constraint sale_seats_sale_id_fkey foreign key (sale_id) references sales (id) on update cascade on delete set null
   );
 
 -- test movies inserts
@@ -258,19 +255,19 @@ returns table (
 ) as $$
   begin
     return query
-      select f.id, 
-        f.start_at, 
-        m.name, 
-        m.duration, 
-        r.name as room, 
-        coalesce(f.adults_price, r.adults_price) as adults_price, 
-        coalesce(f.kids_price, r.kids_price) as kids_price, 
-        mf.format 
-      from functions f
-      join movie_formats mf on f.movie_format_id = mf.id 
-      join movies m on mf.movie_id = m.id 
-      join room r on f.room_id = r.id 
-      where m.id = movie
-      and f.start_at > date;
+      select functions.id, 
+        functions.start_at, 
+        movies.name, 
+        movies.duration, 
+        room.name as room, 
+        coalesce(functions.adults_price, room.adults_price) as adults_price, 
+        coalesce(functions.kids_price, room.kids_price) as kids_price, 
+        movie_formats.format 
+      from functions
+      join movie_formats on functions.movie_format_id = movie_formats.id 
+      join movies on movie_formats.movie_id = movies.id 
+      join room on functions.room_id = room.id 
+      where movies.id = movie
+      and functions.start_at > date;
   end;
 $$ language plpgsql;
