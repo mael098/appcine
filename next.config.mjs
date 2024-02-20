@@ -18,6 +18,3 @@ export default withMDX({
     ]),
     pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 })
-console.log(
-    `${process.env.NEXT_SUPABASE_URL}/storage/v1/object/public/movies/images/:path*`
-)
