@@ -1,14 +1,16 @@
 import Image from 'next/image'
 import { Database } from '@/lib/supabaseTypes'
+import { supabase } from '@/lib/db'
 import Nav from '../../Nav'
 import { NEXT_URL } from '@/lib/constants'
+import { notFound } from 'next/navigation'
 
 export default async function salaMovis({params}: {params: {slug: string}}) {
-    const getFunctions = async () => {
-        const res = await fetch(`${NEXT_URL}/api/movie/${params.slug}/functions`)
-        return await res.json() as Database['public']['Functions']['get_available_functions_by_movie']['Returns']
-    }
-    const functions = await getFunctions()
+
+    const functionsQuery = await supabase.rpc('get_available_functions_by_movie', { date: new Date().toISOString(), movie: params.slug })
+    if (functionsQuery.error)  {return notFound()}
+
+    const functions = functionsQuery.data
     const dubFunctions = functions.filter(f=>(f.format & 1))
     const subFunctions = functions.filter(f=>!(f.format & 1))
 
@@ -21,11 +23,11 @@ export default async function salaMovis({params}: {params: {slug: string}}) {
     return(
         <div className="h-screen w-screen overflow-x-hidden">
             <Nav/>
-            <main className="grid grid-cols-5">
-                <div className='col-span-3'>
-                    <Image src={`/images/covers/${movie.cover}`} alt={`${movie.name} cover`} width={800} height={100} />
+            <main className="h-full w-full grid grid-cols-5">
+                <div className='col-span-3 grid'>
+                    <Image src={`/images/covers/${movie.cover}`} alt={`${movie.name} cover`} width={600} height={100} className='w-auto h-full'/>
                     <div className='col-span-1 grid grid-cols-4 h-2/5'>
-                        <div className='h-full col-span-1 flex flex-col items-center border-r-2 border-zinc-950'>
+                        <div className='h-full w-full col-span-1 flex flex-col items-center border-r-2 border-zinc-950'>
                             <i className='bg-green-600 p-4 m-2'>B</i>
                             <h2 className='text-nowrap text-2xl font-semibold m-2'>{movie.duration}</h2>
                             <p className='m-2'>director</p>
