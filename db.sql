@@ -1,3 +1,8 @@
+
+-- drop function get_available_functions_by_movie
+drop function if exists get_available_functions_by_movie(text, timestamp without time zone);
+drop function if exists get_movie_listings;
+
 -- drop all tables
 drop table if exists sale_seats;
 drop table if exists sale_seats;
@@ -17,10 +22,6 @@ drop table if exists users;
 drop table if exists cinemas;
 drop table if exists movie_formats;
 drop table if exists movies;
-
--- drop function get_available_functions_by_movie
-drop function if exists get_available_functions_by_movie(text, timestamp without time zone);
-drop function if exists get_movie_listings;
 
 -- create tables
 create table
