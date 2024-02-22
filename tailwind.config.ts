@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss'
-import colors from 'tailwindcss/colors'
+
 const config: Config = {
     content: [
         './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -13,23 +13,22 @@ const config: Config = {
                 'gradient-conic':
                 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
             },
+            colors: {
+                light: {
+                    50: '#f8f9fa',
+                    100: '#eceff2',
+                    200: '#d6dce1',
+                    300: '#b2bec7',
+                    400: '#889ba8',
+                    500: '#697e8e',
+                    600: '#546775',
+                    700: '#45535f',
+                    800: '#3c4750',
+                    900: '#353d45',
+                    950: '#23292e',
+                },
+            }
         },
-        colors: {
-            ...colors,
-            light: {
-                50: '#f8f9fa',
-                100: '#eceff2',
-                200: '#d6dce1',
-                300: '#b2bec7',
-                400: '#889ba8',
-                500: '#697e8e',
-                600: '#546775',
-                700: '#45535f',
-                800: '#3c4750',
-                900: '#353d45',
-                950: '#23292e',
-            },
-        }
     },
     plugins: [],
 }

@@ -8,6 +8,7 @@
     "@stylistic/semi": ["error", "never"],
     "@stylistic/no-trailing-spaces": "error",
     "readable-tailwind/no-unnecessary-whitespace": "error",
-    "@stylistic/no-multiple-empty-lines": ["error", { "max": 1 }]
+    "@stylistic/no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-unused-vars": "off"
   }
 }
