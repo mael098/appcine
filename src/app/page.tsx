@@ -1,7 +1,5 @@
 import { MovieCard } from './MovieCard'
 import Nav from './Nav'
-import { Database } from '@/lib/supabaseTypes'
-import { NEXT_URL } from '@/lib/constants'
 import db from '@/lib/db'
 import { notFound } from 'next/navigation'
 
