@@ -1,6 +1,23 @@
-.ly:has(nav > label > input:checked) > div > nav {
+.ly:has(nav > label > input:checked) > main > nav {
+  width: 16rem;
+  padding: 1rem;
+}
+
+.ly:not(:has(nav > label > input:checked)) > main > nav {
   width: 0;
   padding: 0;
+}
+
+@media (min-width: 1024px) {
+  .ly:has(nav > label > input:checked) > main > nav {
+    width: 0;
+    padding: 0;
+  }
+  
+  .ly:not(:has(nav > label > input:checked)) > main > nav {
+    width: 16rem;
+    padding: 1rem;
+  }
 }
 
 /* dont touch */
