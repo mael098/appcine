@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export default async function AdminDashboard() {
+export default async function Login() {
     return (
         <div className="w-screen h-screen grid justify-center items-center">
             <main className="grid grid-cols-2 justify-center items-center bg-green-200 h-96 w-[700px] rounded-2xl shadow-green-900 shadow-2xl">
