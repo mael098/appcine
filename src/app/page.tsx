@@ -13,11 +13,13 @@ export default async function Home() {
         return notFound()
     }
 
+    const movies = moviesQuery.data.filter((m, i) => i === moviesQuery.data.findIndex((movie) => movie.id === m.id))
+
     return (
         <div className="h-screen w-screen overflow-x-hidden">
             <Nav/>
             <main className="grid grid-cols-4 grid-rows gap-8">
-                {moviesQuery.data.map(({name, id, image})=> (
+                {movies.map(({name, id, image})=> (
                     <MovieCard id={id} name={name} image={image} key={id}/>
                 ))}
             </main>
