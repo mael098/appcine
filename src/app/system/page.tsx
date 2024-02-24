@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers'
+
 export default async function AdminDashboard() {
     return (
         <div>

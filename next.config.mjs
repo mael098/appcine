@@ -20,3 +20,7 @@ export default withMDX({
     ]),
     pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 })
+
+if (!process.env.NEXT_JWT_SECRET) {
+    throw new Error('missing NEXT_JWT_SECRET')
+}

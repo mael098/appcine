@@ -2,6 +2,7 @@
 -- drop function get_available_functions_by_movie
 drop function if exists get_available_functions_by_movie(text, timestamp without time zone);
 drop function if exists get_movie_listings;
+drop function if exists get_employee_login(text,text);
 
 -- drop all tables
 drop table if exists sale_seats;
@@ -104,6 +105,8 @@ create table
     name text not null,
     email text not null,
     password text not null,
+    active boolean not null default true,
+    role smallint not null,
     constraint employees_pkey primary key (id),
     constraint employees_email_key unique (email),
     constraint employees_cinema_id_fkey foreign key (cinema_id) references cinemas (id) on update cascade on delete cascade
@@ -283,5 +286,16 @@ returns setof movies as $$
       join movie_formats on movies.id = movie_formats.movie_id
       join functions on movie_formats.id = functions.movie_format_id
       where functions.start_at > now();
+  end;
+$$ language plpgsql;
+
+-- function get_employee_login(email text, hashed text) returns table employees
+create or replace function get_employee_login (employee_email text)
+returns setof employees as $$
+begin
+    return query
+      select * from employees
+      where employees.email = employee_email
+      and active = true;
   end;
 $$ language plpgsql;
