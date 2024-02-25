@@ -3389,34 +3389,6 @@
           "createAt": 1708217599249
         }
       },
-      "IYWur8AkJVZbvwl554M8d": {
-        "id": "IYWur8AkJVZbvwl554M8d",
-        "identification": false,
-        "relationshipType": 16,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "tc8HdBrH32OPFgHh8nJ7F",
-          "columnIds": [
-            "2KWwHWVX-JDG73NQ3UqT3"
-          ],
-          "x": 512.25,
-          "y": 825.75,
-          "direction": 2
-        },
-        "end": {
-          "tableId": "0kYpCbuWvHYznByiZocqT",
-          "columnIds": [
-            "NPJWx6j8Fi79iD4EKxZXJ"
-          ],
-          "x": 824.75,
-          "y": 528.75,
-          "direction": 1
-        },
-        "meta": {
-          "updateAt": 1708217770970,
-          "createAt": 1708217770970
-        }
-      },
       "VRqAHLZebyub3anvbNV88": {
         "id": "VRqAHLZebyub3anvbNV88",
         "identification": false,
@@ -3499,34 +3471,6 @@
         "meta": {
           "updateAt": 1708289911018,
           "createAt": 1708289911018
-        }
-      },
-      "OojRLEUmMqE6K34q0o9VG": {
-        "id": "OojRLEUmMqE6K34q0o9VG",
-        "identification": false,
-        "relationshipType": 16,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "0kYpCbuWvHYznByiZocqT",
-          "columnIds": [
-            "QjCpY1LMgp29N5tiTxVPU"
-          ],
-          "x": 1221.75,
-          "y": 560.75,
-          "direction": 2
-        },
-        "end": {
-          "tableId": "PJ4hyWDIClvbQpXbAlp5_",
-          "columnIds": [
-            "Guiz8VlIcJ4QigDwZ7sBk"
-          ],
-          "x": 1421.7006,
-          "y": 406.094,
-          "direction": 1
-        },
-        "meta": {
-          "updateAt": 1708391801260,
-          "createAt": 1708391801260
         }
       },
       "V-_M8247J7-eidudZ5cxc": {
@@ -5039,12 +4983,6 @@
         "comment": 1708217837396
       }
     ],
-    "IYWur8AkJVZbvwl554M8d": [
-      "relationshipEntities",
-      1708217770964,
-      1708391691787,
-      {}
-    ],
     "4n4RRPyAXCmDYP7Knj2Y4": [
       "tableColumnEntities",
       1708218827564,
@@ -5192,12 +5130,6 @@
         "default": 1708391801257,
         "comment": 1708391801257
       }
-    ],
-    "OojRLEUmMqE6K34q0o9VG": [
-      "relationshipEntities",
-      1708391801257,
-      1708391804890,
-      {}
     ],
     "bQpbcGwR9U761HcRHWM8j": [
       "tableColumnEntities",

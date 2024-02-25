@@ -1,28 +1,29 @@
 import Image from 'next/image'
 import LoginForm from './LoginForm'
 import { cookies } from 'next/headers'
-import supabase from '@/lib/db'
 import { compare } from 'bcrypt'
 import { SignJWT } from 'jose'
 import { redirect } from 'next/navigation'
 import { JWT_SECRET } from '@/lib/constants'
+import { prisma } from '@/lib/db'
 
 export default async function Login() {
     const submit = async ({email, password}:{email:string,password:string}) => {
         'use server'
-        const session = await supabase.rpc('get_employee_login', {employee_email:email})
-        if (session.error) {
-            return {
-                error: session.error.message,
-                status: 'failed'
+        const session = await prisma.employees.findUnique({
+            where: {
+                email,
+                active: true
             }
-        } else if (!session.data[0]) {
+        })
+
+        if (!session) {
             return {
                 error: 'invalid credentials',
                 status: 'failed'
             }
         }
-        const {cinema_id,created_at,id,name,active,role,password: passwordDb} = session.data[0]
+        const {cinema_id,created_at,id,name,active,role,password: passwordDb} = session
         if (!await compare(password, passwordDb)) {
             return {
                 error: 'invalid credentials',
