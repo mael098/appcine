@@ -20,6 +20,9 @@ export default async function Home() {
                     }
                 }
             }
+        }).catch(e => {
+            console.error(e)
+            return []
         })
     return (
         <div className="h-screen w-screen overflow-x-hidden">
