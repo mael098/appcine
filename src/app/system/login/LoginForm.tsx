@@ -13,7 +13,9 @@ export default function LoginForm({submit}:{submit:submit}) {
             email: formData.get('email') as string,
             password: formData.get('password') as string
         })
-        console.log(r)
+        if(r.error) {
+            alert(r.error)
+        }
     }
     return (
         <form onSubmit={submitForm} className='col-span-1 flex flex-col gap-9 justify-center items-center'>
