@@ -1,9 +1,8 @@
-import { getAllLogs, getImageFromLog } from '@/lib/changelog'
+import { getAllLogs } from '@/lib/changelog'
 import Link from 'next/link'
 
 export default function Wiki() {
-    const allLogs = getAllLogs().map(log => ({...log, data: {...log.data,image:getImageFromLog(log)} as {[key:string]:string}}))
-    console.log(allLogs)
+    const allLogs = getAllLogs()
     return <div className='p-8 flex flex-col gap-4'>
         {allLogs.map(log => <article className='flex flex-row gap-4' key={log.slug}>
             <span className='h-full'>{log.data.date}</span>

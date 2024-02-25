@@ -11,7 +11,8 @@ export function getAllPosts() {
 }
 
 export function getPostBySlug(slug: string) {
-    const realSlug = slug.replace(/\.md$/, '')
+    const realSlug = slug.replace(/\.mdx?$/, '')
+
     const fullPath = join(postsDirectory, `${realSlug}.mdx`)
     try {
         const fileContents = readFileSync(fullPath)
@@ -20,7 +21,8 @@ export function getPostBySlug(slug: string) {
             ...mdx,
             slug: realSlug,
         }
-    } catch {
+    } catch (e) {
+        console.log(e)
         return null
     }
 }

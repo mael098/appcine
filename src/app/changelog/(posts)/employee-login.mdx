@@ -1,0 +1,22 @@
+---
+author: "Eli Maciel"
+title: "Employee Login"
+date: "2024-02-24"
+image: "/login-admin.png"
+---
+
+Se agrego un login para los empleados en la ruta [/system/login](/system/login)
+
+## Seguridad
+
+A pesar de que la ruta de [/system](/system) es publica, sin las credenciales correctas esta totalmente restringida.
+
+Esto lo logra con a travez de web cookies donde se almacena un JWT con las credenciales necesarias del empleado logeado
+- Este JWT tiene un tiempo de expiracion de 1 dia
+- La cookie igualmente exipra 1 dia
+- El JWT esta firmado con una clave secreta por lo que no se puede modificar externamente
+- Un middleware verifica que el JWT sea valido antes de permitir el acceso a la pagina por lo que no se puede acceder en ningun momento a la pagina sin un JWT valido
+
+## Accesibilidad
+
+Con el fin de que no se pierdan las rutas al intentar entrar sin credenciales, se agrego un sistema de redireccionamiento que redirige a la pagina de login si no se tiene un JWT valido y una vez logeado redirige a la pagina original.
