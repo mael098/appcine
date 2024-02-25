@@ -14,6 +14,7 @@
     "@mdx-js/react": "3.0.1",
     "@next/mdx": "14.1.0",
     "@picocss/pico": "^2.0.3",
+    "@prisma/client": "5.10.2",
     "@sapphire/snowflake": "3.5.3",
     "@supabase/supabase-js": "2.39.6",
     "@types/mdx": "2.0.11",
@@ -28,6 +29,7 @@
     "remark-gfm": "4.0.0"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.8.0",
     "@stylistic/eslint-plugin": "1.6.2",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "20.11.19",
@@ -39,6 +41,8 @@
     "eslint-config-next": "14.1.0",
     "eslint-plugin-readable-tailwind": "1.0.0",
     "postcss": "8.4.35",
+    "prisma": "5.10.2",
+    "prisma-erd-generator": "^1.11.2",
     "tailwindcss": "3.3.0",
     "typescript": "5.3.3"
   }

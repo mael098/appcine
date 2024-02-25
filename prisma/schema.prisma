@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cinemas {
+  id         String      @id
+  created_at DateTime    @default(now()) @db.Timestamp(6)
+  name       String      @unique
+  latitude   Float       @db.Real
+  longitude  Float       @db.Real
+  active     Boolean     @default(true)
+  employees  employees[]
+  products   products[]
+  room       room[]
+}
+
+model employees {
+  id         String   @id
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  cinema_id  String
+  name       String
+  email      String   @unique
+  password   String
+  active     Boolean  @default(true)
+  role       Int      @db.SmallInt
+  cinemas    cinemas  @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
+  sales      sales[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model functions {
+  id              String        @id
+  movie_format_id String
+  room_id         String
+  start_at        DateTime      @db.Timestamp(6)
+  kids_price      Float?        @db.Real
+  adults_price    Float?        @db.Real
+  max_seats       Int?          @db.SmallInt
+  movie_formats   movie_formats @relation(fields: [movie_format_id], references: [id], onDelete: Cascade)
+  room            room          @relation(fields: [room_id], references: [id], onDelete: Cascade)
+  movie_sales     movie_sales[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model memberships {
+  curp       String   @id
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  name       String
+  card       String   @unique
+  user_id    String?
+  users      users?   @relation(fields: [user_id], references: [id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model movie_formats {
+  id        String      @id
+  movie_id  String
+  format    BigInt
+  functions functions[]
+  movies    movies      @relation(fields: [movie_id], references: [id], onDelete: Cascade)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model movie_sales {
+  function_id String
+  sale_id     String
+  adults      Int       @db.SmallInt
+  kids        Int       @db.SmallInt
+  functions   functions @relation(fields: [function_id], references: [id])
+  sales       sales     @relation(fields: [sale_id], references: [id], onDelete: Cascade)
+
+  @@id([function_id, sale_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model movies {
+  id             String          @id
+  created_at     DateTime        @default(now()) @db.Timestamp(6)
+  name           String          @unique
+  duration       Int             @db.SmallInt
+  classification String
+  sinopsis       String
+  director       String
+  image          String
+  cover          String
+  movie_formats  movie_formats[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model product_sales {
+  product_id String
+  sale_id    String
+  quantity   Int      @db.SmallInt
+  products   products @relation(fields: [product_id], references: [id])
+  sales      sales    @relation(fields: [sale_id], references: [id], onDelete: Cascade)
+
+  @@id([product_id, sale_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model products {
+  id            String          @id
+  name          String
+  price         Float           @db.Real
+  cinema_id     String
+  stock         Int             @db.SmallInt
+  product_sales product_sales[]
+  cinemas       cinemas         @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model registers {
+  id         String   @id
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  email      String   @unique
+  password   String
+  user_id    String?
+  users      users?   @relation(fields: [user_id], references: [id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model room {
+  id           String      @id
+  adults_price Float       @db.Real
+  kids_price   Float       @db.Real
+  name         String
+  cinema_id    String
+  description  String
+  functions    functions[]
+  cinemas      cinemas     @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
+  seats        seats[]
+}
+
+model sale_seats {
+  seat_id String
+  sale_id String
+  sales   sales  @relation(fields: [sale_id], references: [id], onDelete: Cascade)
+  seats   seats  @relation(fields: [seat_id], references: [id])
+
+  @@id([seat_id, sale_id])
+}
+
+model sales {
+  id            String          @id
+  created_at    DateTime        @default(now()) @db.Timestamp(6)
+  employee_id   String?
+  user_id       String?
+  movie_sales   movie_sales[]
+  product_sales product_sales[]
+  sale_seats    sale_seats[]
+  employees     employees?      @relation(fields: [employee_id], references: [id], onDelete: Restrict)
+  users         users?          @relation(fields: [user_id], references: [id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model seats {
+  id         String       @id
+  room_id    String
+  x          Int          @db.SmallInt
+  y          Int          @db.SmallInt
+  size       Int          @db.SmallInt
+  disponible Boolean      @default(true)
+  sale_seats sale_seats[]
+  room       room         @relation(fields: [room_id], references: [id], onDelete: Cascade)
+}
+
+model users {
+  id          String        @id
+  username    String
+  memberships memberships[]
+  registers   registers[]
+  sales       sales[]
+}
