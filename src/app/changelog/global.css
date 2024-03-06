@@ -1,3 +1,0 @@
-#ly:not(:has(main > #changelog)) > nav > #back {
-    display: none;
-}
