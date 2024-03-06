@@ -1,5 +1,6 @@
+import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
-import { JWT_SECRET } from './constants'
+import { JWT_SECRET, Role } from './constants'
 
 /**
  *
@@ -15,7 +16,7 @@ export async function getSessionPayload(token: string) {
             id:string,
             name:string,
             active:boolean,
-            role:number,
+            role:Role,
             email:string,
             exp:number
         }>(token, JWT_SECRET)
@@ -30,5 +31,15 @@ export async function getSessionPayload(token: string) {
         } else {
             throw error
         }
+    }
+}
+
+export async function getSessionUser() {
+    const token = cookies().get('token')?.value
+    if (!token) return null
+    try {
+        return (await getSessionPayload(token)).payload
+    } catch {
+        return null
     }
 }

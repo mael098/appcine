@@ -10,6 +10,8 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "@discordjs/core": "^1.1.1",
+    "@discordjs/rest": "^2.2.0",
     "@mdx-js/loader": "3.0.1",
     "@mdx-js/react": "3.0.1",
     "@next/mdx": "14.1.0",
