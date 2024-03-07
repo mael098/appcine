@@ -2,6 +2,7 @@
     "recommendations": [
         "dineug.vuerd-vscode",
         "dbaeumer.vscode-eslint",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "csstools.postcss"
     ]
 }

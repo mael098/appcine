@@ -1,0 +1,32 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+projects: []
+assignees:
+  - eliyya
+  - mael098
+body:
+  - type: textarea
+    id: "describe-the-bug"
+    attributes:
+      label: "Describe the bug"
+      description: "A clear and concise description of what the bug is. Include screenshots if needed."
+      placeholder: Tell us what you see.
+    validations:
+      required: true
+  - type: textarea
+    id: "to-reproduce"
+    attributes:
+      label: "To reproduce"
+      description: "Bug reports with clear reproduction will get prioritized higher and addressed more quickly."
+      placeholder: "Steps to reproduce: 1. Go to '...' 2. Click on '...' 3. Scroll down to '...' 4. See error '...'"
+    validations:
+      required: true
+  - type: input
+    id: "environment"
+    attributes:
+      label: "Environment"
+      description: "Environment where the bug was found. e.g. production, local, in greentea-<commit>.vercel.app"
+    validations:
+      required: true

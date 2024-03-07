@@ -1,3 +1,4 @@
+@use "pico";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,7 +20,7 @@
 body {
   color: #0a0a0a;
  /* background-image: linear-gradient(to bottom, #2d472e, #578B5F);*/
-  background:linear-gradient(to bottom, #FFFFFF 0%, #578B5F 80% ); 
+  background:linear-gradient(to bottom, #a5f4c0 0%, #578B5F 80% ); 
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
