@@ -17,3 +17,7 @@ export const ROLES_NAME = {
 } as const
 
 export type Role = typeof ROLE[keyof typeof ROLE]
+
+export const COOKIE = {
+    SESSION: 'session'
+}

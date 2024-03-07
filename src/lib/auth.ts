@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
-import { JWT_SECRET, Role } from './constants'
+import { COOKIE, JWT_SECRET, Role } from './constants'
 
 /**
  *
@@ -35,7 +35,9 @@ export async function getSessionPayload(token: string) {
 }
 
 export async function getSessionUser() {
-    const token = cookies().get('token')?.value
+    const token = cookies().get(COOKIE.SESSION)?.value
+    console.log()
+
     if (!token) return null
     try {
         return (await getSessionPayload(token)).payload
