@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getSessionPayload } from './lib/auth'
-import { COOKIE } from './lib/constants'
+import { COOKIE, ROLE } from './lib/constants'
+
+const MasterRoutes = []
+const AdminRoutes = ['/new/room']
 
 export async function middleware(request: NextRequest) {
     const session = request.cookies.get(COOKIE.SESSION)?.value
@@ -21,8 +24,13 @@ export async function middleware(request: NextRequest) {
     } else {
         if (!session) return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
         try {
-            await getSessionPayload(session)
-            return NextResponse.next()
+            const {payload} = await getSessionPayload(session)
+            const {role} = payload
+            let likecookie = parseInt(request.cookies.get(COOKIE.ADMIN_LIKE)?.value??'')
+            if (isNaN(likecookie) || likecookie < role) likecookie = role
+            const res = NextResponse.next()
+            res.cookies.set(COOKIE.ADMIN_LIKE, `${likecookie}`)
+            return res
         } catch (error) {
             if ((error as Error).message !== 'Invalid token') console.log('middleware error message', error)
             return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
