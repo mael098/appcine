@@ -7,8 +7,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "migrate:pull": "tsc --project scripts/tsconfig.scripts.json || node scripts/migrate.js"
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@discordjs/core": "^1.1.1",
