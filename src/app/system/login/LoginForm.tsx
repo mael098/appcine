@@ -3,9 +3,9 @@
 import { Input, SubmitInput } from '@/components/Input'
 import { FormEventHandler } from 'react'
 
-type submit = (opt:{email:string,password:string})=>Promise<{error?:string,status:string}>
+type submit = (opt: { email: string, password: string }) => Promise<{ error?: string, status: string }>
 
-export default function LoginForm({submit}:{submit:submit}) {
+export default function LoginForm({ submit }: { submit: submit }) {
     const submitForm: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
@@ -13,7 +13,7 @@ export default function LoginForm({submit}:{submit:submit}) {
             email: formData.get('email') as string,
             password: formData.get('password') as string
         })
-        if(r.error) {
+        if (r?.error) {
             alert(r.error)
         }
     }
