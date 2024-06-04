@@ -11,7 +11,7 @@ export async function AdminDashboard() {
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
                         <div className="dropdown">
-                            <button class="dropbtn">Selecciona tu rol</button>
+                            <button className="dropbtn">Selecciona tu rol</button>
                             <div className="dropdown-content">
                                 <a href="#">Administrador</a>
                                 <a href="#">Promotor</a>
