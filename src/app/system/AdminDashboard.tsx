@@ -6,7 +6,7 @@ export async function AdminDashboard() {
         <div>
             <SystemNav />
             <h1>Admin Dashboard</h1>
-            <Link href="/system/logout">LogOut</Link>
-        </div>
+            <Link href="/system/logout" className=''>LogOut</Link>
+        </div >
     )
 }
