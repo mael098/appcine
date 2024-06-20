@@ -13,7 +13,7 @@ export default function LoginForm({submit}:{submit:submit}) {
             email: formData.get('email') as string,
             password: formData.get('password') as string
         })
-        if(r.error) {
+        if(r?.error) {
             alert(r.error)
         }
     }
