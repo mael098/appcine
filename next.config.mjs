@@ -1,11 +1,6 @@
-import withMDX from '@next/mdx'
-import remarkGfm from 'remark-gfm'
 
-export default withMDX({
-    options: {
-        remarkPlugins: [remarkGfm],
-    }
-})({
+/** @type {import('next').NextConfig} */
+const config = {
     rewrites: async () => ([
         {
             source: '/images/movies/:path*',
@@ -18,8 +13,10 @@ export default withMDX({
             basePath: false
         }
     ]),
-    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
-})
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+}
+
+export default config
 
 if (!process.env.NEXT_JWT_SECRET) {
     throw new Error('missing NEXT_JWT_SECRET')
