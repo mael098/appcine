@@ -8,6 +8,8 @@ import { JWT_SECRET } from '@/lib/constants'
 import { prisma } from '@/lib/db'
 
 export default async function Login() {
+    const employees = await prisma.employees.findFirst({})
+    if (!employees) return redirect('/system/welcome')
     const submit = async ({email, password}:{email:string,password:string}) => {
         'use server'
         const session = await prisma.employees.findUnique({
