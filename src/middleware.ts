@@ -21,6 +21,8 @@ export async function middleware(request: NextRequest) {
         const res = NextResponse.redirect(new URL('/system/login', request.url))
         res.cookies.delete(COOKIE.SESSION)
         return res
+    } else if (request.nextUrl.pathname === '/system/welcome') {
+        return NextResponse.next()
     } else {
         if (!session) return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
         try {
