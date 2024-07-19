@@ -7,5 +7,11 @@
     "terminal.integrated.stickyScroll.enabled": true,
     "workbench.tree.enableStickyScroll": true,
     "WillLuke.nextjs.addTypesOnSave": true,
-    "WillLuke.nextjs.hasPrompted": true
+    "WillLuke.nextjs.hasPrompted": true,
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }
