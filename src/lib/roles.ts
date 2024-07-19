@@ -4,7 +4,7 @@ const ROLE_VALUE = {
     [Role.MASTER]: 3,
     [Role.ADMIN]: 2,
     [Role.PROMOTER]: 1,
-    [Role.TIKETMAN]: 0
+    [Role.SELLER]: 0
 }
 
 export function getLikeRole(base: Role, like: string): Role {

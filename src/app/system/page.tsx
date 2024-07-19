@@ -16,7 +16,7 @@ export default async function Dashboard() {
 
     if (like == Role.MASTER) return <AdminDashboard roles={getLikeRoleProbables(user.role)} />
     if (like == Role.ADMIN) return <AdminDashboard roles={getLikeRoleProbables(user.role)} />
-    if (like == Role.PROMOTER) return <PromoterDashboard />
-    if (like == Role.TIKETMAN) return <SellerDashboard />
+    if (like == Role.PROMOTER) return <PromoterDashboard roles={getLikeRoleProbables(user.role)} />
+    if (like == Role.SELLER) return <SellerDashboard roles={getLikeRoleProbables(user.role)} />
     return notFound()
 }
