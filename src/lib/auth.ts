@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
 import { COOKIE, JWT_SECRET, Role } from './constants'
+import { employees } from '@prisma/client'
 
 /**
  *
@@ -10,16 +11,7 @@ import { COOKIE, JWT_SECRET, Role } from './constants'
  */
 export async function getSessionPayload(token: string) {
     try {
-        const payload = await jwtVerify<{
-            cinema_id:string,
-            created_at:string,
-            id:string,
-            name:string,
-            active:boolean,
-            role:Role,
-            email:string,
-            exp:number
-        }>(token, JWT_SECRET)
+        const payload = await jwtVerify<employees>(token, JWT_SECRET)
         return payload
     } catch (error) {
         if (error instanceof Error && (
