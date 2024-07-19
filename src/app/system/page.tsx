@@ -14,7 +14,6 @@ export default async function Dashboard() {
     if (!user) redirect('/system/login')
     const like = getLikeRole(user.role, cookies().get(COOKIE.ADMIN_LIKE)?.value ?? '')
 
-
     if (like == Role.MASTER) return <AdminDashboard />
     if (like == Role.ADMIN) return <AdminDashboard />
     if (like == Role.PROMOTER) return <PromoterDashboard />

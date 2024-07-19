@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role } from '@prisma/client'
 
 const ROLE_VALUE = {
     [Role.MASTER]: 3,

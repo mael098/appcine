@@ -1,7 +1,7 @@
 'use client'
 
-import { Input, SubmitPrimaryInput } from '@/components/Input';
-import { useRouter } from 'next/navigation';
+import { Input, SubmitPrimaryInput } from '@/components/Input'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export interface RegisterMasterFormSubmit {
@@ -33,12 +33,12 @@ export function RegisterMasterForm(props: RegisterMasterFormProps) {
         <form
             className='flex flex-col gap-1 p-10'
             action={async e => {
-                if (!password.match(/[A-Z]/g)) return setPasswordError("La contrasenia debe tener al menos una mayuscula")
-                if (!password.match(/[a-z]/g)) return setPasswordError("La contrasenia debe tener al menos una minuscula")
-                if (!password.match(/[0-9]/g)) return setPasswordError("La contrasenia debe tener al menos un numero")
+                if (!password.match(/[A-Z]/g)) return setPasswordError('La contrasenia debe tener al menos una mayuscula')
+                if (!password.match(/[a-z]/g)) return setPasswordError('La contrasenia debe tener al menos una minuscula')
+                if (!password.match(/[0-9]/g)) return setPasswordError('La contrasenia debe tener al menos un numero')
                 if (!password.match(/[!?_\-+=*&%$#]/g)) return setPasswordError('La contrasenia debe tener al menos un caracter especial')
-                if (password.length < 8) return setPasswordError("La contrasenia debe tener al menos 8 caracteres")
-                if (password.match(/[^A-Za-z0-9!?_\-+=*&%$#]/g)) return setPasswordError("La contrasenia solo puede tener los siguientes caracteres especiales: !?_-=+*&%$#")
+                if (password.length < 8) return setPasswordError('La contrasenia debe tener al menos 8 caracteres')
+                if (password.match(/[^A-Za-z0-9!?_\-+=*&%$#]/g)) return setPasswordError('La contrasenia solo puede tener los siguientes caracteres especiales: !?_-=+*&%$#')
 
                 if (password !== password2) return setPassword2Error('Passwords do not match')
                 const response = await props.submit({
