@@ -21,6 +21,13 @@ model cinemas {
   room       room[]
 }
 
+enum Role {
+  MASTER
+  ADMIN
+  PROMOTER
+  TIKETMAN
+}
+
 model employees {
   id         String   @id
   created_at DateTime @default(now()) @db.Timestamp(6)
@@ -29,7 +36,7 @@ model employees {
   email      String   @unique
   password   String
   active     Boolean  @default(true)
-  role       Int      @db.SmallInt
+  role       Role
   cinemas    cinemas  @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
   sales      sales[]
 }
