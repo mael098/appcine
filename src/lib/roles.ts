@@ -14,3 +14,7 @@ export function getLikeRole(base: Role, like: string): Role {
     if (likeValue <= baseValue) return like as Role
     return base
 }
+
+export function getLikeRoleProbables(base: Role): Role[] {
+    return Object.values(Role).filter(role => ROLE_VALUE[role] <= ROLE_VALUE[base])
+}

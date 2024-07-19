@@ -5,7 +5,7 @@ import { AdminDashboard } from './AdminDashboard'
 import { PromoterDashboard } from './PromoterDashboard'
 import { SellerDashboard } from './SellerDashboard'
 import { cookies } from 'next/headers'
-import { getLikeRole } from '@/lib/roles'
+import { getLikeRole, getLikeRoleProbables } from '@/lib/roles'
 import { Role } from '@prisma/client'
 
 export default async function Dashboard() {
@@ -14,8 +14,8 @@ export default async function Dashboard() {
     if (!user) redirect('/system/login')
     const like = getLikeRole(user.role, cookies().get(COOKIE.ADMIN_LIKE)?.value ?? '')
 
-    if (like == Role.MASTER) return <AdminDashboard />
-    if (like == Role.ADMIN) return <AdminDashboard />
+    if (like == Role.MASTER) return <AdminDashboard roles={getLikeRoleProbables(user.role)} />
+    if (like == Role.ADMIN) return <AdminDashboard roles={getLikeRoleProbables(user.role)} />
     if (like == Role.PROMOTER) return <PromoterDashboard />
     if (like == Role.TIKETMAN) return <SellerDashboard />
     return notFound()
