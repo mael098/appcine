@@ -1,10 +1,10 @@
-import Link from "next/link";
+import Link from 'next/link'
 import Image from 'next/image'
-import { SystemNavLikeRole, SystemNavLikeRoleAtion } from "./SystemNavLikeRole";
-import { cookies } from "next/headers";
-import { COOKIE } from "@/lib/constants";
-import { Role } from "@prisma/client";
-import { redirect } from "next/navigation";
+import { SystemNavLikeRole, SystemNavLikeRoleAtion } from './SystemNavLikeRole'
+import { cookies } from 'next/headers'
+import { COOKIE } from '@/lib/constants'
+import { Role } from '@prisma/client'
+import { redirect } from 'next/navigation'
 
 export interface Options {
     name: string,
