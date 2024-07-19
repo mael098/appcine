@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
-import { COOKIE, JWT_SECRET, Role } from './constants'
+import { COOKIE, JWT_SECRET } from './constants'
 import { employees } from '@prisma/client'
 
 /**
