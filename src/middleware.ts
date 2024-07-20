@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getSessionPayload } from './lib/auth'
-import { COOKIE, ROLE } from './lib/constants'
+import { COOKIE } from './lib/constants'
 
 const MasterRoutes = []
 const AdminRoutes = ['/new/room']
@@ -29,7 +29,8 @@ export async function middleware(request: NextRequest) {
             const {payload} = await getSessionPayload(session)
             const {role} = payload
             let likecookie = parseInt(request.cookies.get(COOKIE.ADMIN_LIKE)?.value??'')
-            if (isNaN(likecookie) || likecookie < role) likecookie = role
+            // if (isNaN(likecookie) || likecookie < role) likecookie = role
+            // TODO: uncomment the above line
             const res = NextResponse.next()
             res.cookies.set(COOKIE.ADMIN_LIKE, `${likecookie}`)
             return res
