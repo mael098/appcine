@@ -18,14 +18,6 @@ export default async function WelcomePage() {
                 email: data.email,
                 password: await hash(data.password, 10),
                 role: Role.MASTER,
-                cinemas: {
-                    create: {
-                        id: snowflake.generate().toString(),
-                        name: data.cinema_name,
-                        latitude: data.latitude,
-                        longitude: data.longitude,
-                    }
-                }
             }
         })
 

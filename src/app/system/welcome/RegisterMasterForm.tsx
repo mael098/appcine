@@ -9,9 +9,6 @@ export interface RegisterMasterFormSubmit {
         name: string;
         email: string;
         password: string;
-        cinema_name: string;
-        latitude: number;
-        longitude: number;
     }): Promise<{ status: 'error' | 'succes', message: string }>;
 }
 export interface RegisterMasterFormProps {
@@ -22,9 +19,6 @@ export function RegisterMasterForm(props: RegisterMasterFormProps) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
-    const [cinema_name, setCinemaName] = useState('')
-    const [latitude, setLatitude] = useState(0)
-    const [longitude, setLongitude] = useState(0)
     const { replace } = useRouter()
     const [passwordError, setPasswordError] = useState('')
     const [password2Error, setPassword2Error] = useState('')
@@ -45,9 +39,6 @@ export function RegisterMasterForm(props: RegisterMasterFormProps) {
                     name,
                     email,
                     password,
-                    cinema_name,
-                    latitude,
-                    longitude
                 })
                 if (response.status === 'error') alert(response.message)
                 else replace('/system')
@@ -81,28 +72,6 @@ export function RegisterMasterForm(props: RegisterMasterFormProps) {
                 onInput={e => setPassword2(e.currentTarget.value)}
                 value={password2}
                 error={password2Error}
-            />
-            <hr className='border-t-4 border-black rounded' />
-            <Input
-                type="text"
-                placeholder='Cinema Name'
-                required
-                onInput={e => setCinemaName(e.currentTarget.value)}
-                value={cinema_name}
-            />
-            <Input
-                placeholder='Cinema Latitude'
-                type="number"
-                required
-                onInput={e => setLatitude(parseFloat(e.currentTarget.value))}
-                value={latitude}
-            />
-            <Input
-                type="number"
-                placeholder='Cinema Longitude'
-                required
-                onInput={e => setLongitude(parseFloat(e.currentTarget.value))}
-                value={longitude}
             />
             <SubmitPrimaryInput
                 type="submit"
