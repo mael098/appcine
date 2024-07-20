@@ -31,14 +31,15 @@ enum Role {
 model employees {
   id         String   @id
   created_at DateTime @default(now()) @db.Timestamp(6)
-  cinema_id  String
+  cinema_id  String?
   name       String
   email      String   @unique
   password   String
   active     Boolean  @default(true)
   role       Role
-  cinemas    cinemas  @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
   sales      sales[]
+  cinemas    cinemas? @relation(fields: [cinemasId], references: [id])
+  cinemasId  String?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
