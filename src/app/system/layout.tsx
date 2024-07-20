@@ -12,7 +12,9 @@ const inter = Inter({ subsets: ['latin'] })
 const OPTIONS: {
     [key in Role]: NavOptions[]
 } = {
-    [Role.MASTER]: [],
+    [Role.MASTER]: [
+        { name: 'Create Cinema', link: '/system/new/cinema' }
+    ],
     [Role.ADMIN]: [],
     [Role.PROMOTER]: [],
     [Role.SELLER]: [],
@@ -28,16 +30,22 @@ export default async function SystemLayout({
 }: Readonly<{
     children: ReactNode;
 }>) {
-    const {payload} = await getSessionPayload(cookies().get(COOKIE.SESSION)?.value??'').catch(() => ({payload: null}))
-    const like = getLikeRole(payload?.role??Role.SELLER, cookies().get(COOKIE.ADMIN_LIKE)?.value??'')
+    const { payload } = await getSessionPayload(
+        cookies().get(COOKIE.SESSION)?.value??''
+    ).catch(() => ({payload: null}))
+    const like = getLikeRole(
+        payload?.role??Role.SELLER,
+        cookies().get(COOKIE.ADMIN_LIKE)?.value??''
+    )
 
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
                 <SystemNav
-                    options={OPTIONS[like].concat([
-                        {name:'Dashboard',link:'/system'}
-                    ])}
+                    options={[
+                        {name:'Dashboard',link:'/system'},
+                        ...OPTIONS[like]
+                    ]}
                 />
                 {children}
             </body>
