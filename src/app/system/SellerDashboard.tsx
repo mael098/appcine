@@ -2,20 +2,20 @@ import { SystemNav } from '@/components/SystemNav'
 import { Role } from '@prisma/client'
 import Link from 'next/link'
 
-export interface PromoterDashboardProps {
+export interface SellerDashboardProps {
     roles: Role[]
 }
-export async function PromoterDashboard(prop: PromoterDashboardProps) {
+export async function SellerDashboard(prop: SellerDashboardProps) {
     return (
         <>
             <SystemNav
                 options={[
                     { name: 'Dashboard', link: '/system' },
                 ]}
-                current={Role.PROMOTER}
+                current={Role.SELLER}
                 roles={prop.roles}
             />
-            <h1>Promoter Dashboard</h1>
+            <h1>Seller Dashboard</h1>
         </>
     )
 }

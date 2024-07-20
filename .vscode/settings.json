@@ -5,5 +5,13 @@
     "editor.stickyScroll.enabled": true,
     "editor.stickyScroll.maxLineCount": 7,
     "terminal.integrated.stickyScroll.enabled": true,
-    "workbench.tree.enableStickyScroll": true
+    "workbench.tree.enableStickyScroll": true,
+    "WillLuke.nextjs.addTypesOnSave": true,
+    "WillLuke.nextjs.hasPrompted": true,
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    }
 }

@@ -1,15 +1,22 @@
 import { getSessionUser } from '@/lib/auth'
-import { ROLE } from '@/lib/constants'
-import { notFound } from 'next/navigation'
+import { COOKIE } from '@/lib/constants'
+import { notFound, redirect } from 'next/navigation'
 import { AdminDashboard } from './AdminDashboard'
 import { PromoterDashboard } from './PromoterDashboard'
-import { TiketmanDashboard } from './TiketmanDashboard'
+import { SellerDashboard } from './SellerDashboard'
+import { cookies } from 'next/headers'
+import { getLikeRole, getLikeRoleProbables } from '@/lib/roles'
+import { Role } from '@prisma/client'
 
 export default async function Dashboard() {
     const user = await getSessionUser()
-    if (!user) return notFound()
-    if (user.role === ROLE.ADMIN) return <AdminDashboard />
-    if (user.role === ROLE.PROMOTER) return <PromoterDashboard />
-    if (user.role === ROLE.TIKETMAN) return <TiketmanDashboard />
+
+    if (!user) redirect('/system/login')
+    const like = getLikeRole(user.role, cookies().get(COOKIE.ADMIN_LIKE)?.value ?? '')
+
+    if (like == Role.MASTER) return <AdminDashboard roles={getLikeRoleProbables(user.role)} />
+    if (like == Role.ADMIN) return <AdminDashboard roles={getLikeRoleProbables(user.role)} />
+    if (like == Role.PROMOTER) return <PromoterDashboard roles={getLikeRoleProbables(user.role)} />
+    if (like == Role.SELLER) return <SellerDashboard roles={getLikeRoleProbables(user.role)} />
     return notFound()
 }
