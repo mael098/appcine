@@ -1,10 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { SystemNavLikeRole, SystemNavLikeRoleAtion } from './SystemNavLikeRole'
+import { SystemNavLikeRole } from './SystemNavLikeRole'
 import { cookies } from 'next/headers'
 import { COOKIE } from '@/lib/constants'
 import { Role } from '@prisma/client'
-import { redirect } from 'next/navigation'
 
 export interface Options {
     name: string,
@@ -16,11 +15,6 @@ export interface SystemNavProps {
     current: Role
 }
 export function SystemNav(prop: SystemNavProps) {
-    const changueLike: SystemNavLikeRoleAtion = async (role) => {
-        'use server'
-        cookies().set(COOKIE.ADMIN_LIKE, role)
-        redirect('/system')
-    }
     return (
         <nav className="flex bg-[#3BCC52] h-16 p-2 justify-between items-center px-4">
             <div className="flex items-center gap-4 text-white">
@@ -34,7 +28,7 @@ export function SystemNav(prop: SystemNavProps) {
                 ))}
             </div>
             <div className="flex items-center gap-4">
-                <SystemNavLikeRole action={changueLike} roles={prop.roles} current={prop.current} />
+                <SystemNavLikeRole roles={prop.roles} current={prop.current} />
                 <Link href='/system/logout'>
                     <svg className="w-8" fill="#000000" viewBox="0 0 56 56">
                         <path d="M54.424,28.382c0.101-0.244,0.101-0.519,0-0.764c-0.051-0.123-0.125-0.234-0.217-0.327L42.208,15.293,c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414L51.087,27H20.501c-0.552,0-1,0.447-1,1s0.448,1,1,1h30.586L40.794,39.293,c-0.391,0.391-0.391,1.023,0,1.414C40.989,40.902,41.245,41,41.501,41s0.512-0.098,0.707-0.293l11.999-11.999,C54.299,28.616,54.373,28.505,54.424,28.382z" />
