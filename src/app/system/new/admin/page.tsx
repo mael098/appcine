@@ -1,43 +1,23 @@
 import { prisma, snowflake } from '@/lib/db'
 import { redirect } from 'next/navigation'
-import { RegisterAdminForm, RegisterAdminFormSubmit } from './RegisterMasterForm'
+import { RegisterMasterForm, RegisterMasterFormSubmit } from './RegisterMasterForm'
 import { hash } from 'bcrypt'
 import { Role } from '@prisma/client'
 
 export default async function WelcomePage() {
     const employees = await prisma.employees.findFirst({})
     if (employees) return redirect('/system')
-    const cinemas = await prisma.cinemas.findMany({})
 
-    const registerMaster: RegisterAdminFormSubmit = async (data) => {
+    const registerMaster: RegisterMasterFormSubmit = async (data) => {
         'use server'
 
-        // check if cinema exists
-        if (!cinemas
-            .map(cinema => cinema.id)
-            .includes(data.cinema_id)
-        ) return {
-            status: 'error',
-            message: 'Cinema not found'
-        }
-        // check if user already exists
-        const user = await prisma.employees.findFirst({
-            where: {
-                email: data.email
-            }
-        })
-        if (user) return {
-            status: 'error',
-            message: 'User already exist'
-        }
-        await prisma.employees.create({
+        const session = await prisma.employees.create({
             data: {
                 id: snowflake.generate().toString(),
                 name: data.name,
                 email: data.email,
                 password: await hash(data.password, 10),
-                role: Role.ADMIN,
-                cinema_id: data.cinema_id
+                role: Role.MASTER,
             }
         })
 
@@ -51,7 +31,7 @@ export default async function WelcomePage() {
         <main className='flex flex-col gap-1 justify-center h-full text-center' >
             <h1>Welcome to the Greentea System</h1>
             <p>Para continuar se debe registrar al primer empleado el cual tendra como rol Master</p>
-            <RegisterAdminForm cinemas={cinemas} submit={registerMaster} />
+            <RegisterMasterForm submit={registerMaster} />
         </main>
     )
 }

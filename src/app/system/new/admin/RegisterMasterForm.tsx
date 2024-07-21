@@ -1,25 +1,25 @@
 'use client'
 
 import { Input, SubmitPrimaryInput } from '@/components/Input'
-import { cinemas } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export interface RegisterAdminFormSubmit {
+export interface RegisterMasterFormSubmit {
     (props: {
         name: string;
         email: string;
         password: string;
-        cinema_id: string;
     }): Promise<{ status: 'error' | 'succes', message: string }>;
 }
-export interface RegisterAdminFormProps {
-    submit: RegisterAdminFormSubmit
-    cinemas: cinemas[]
+export interface RegisterMasterFormProps {
+    submit: RegisterMasterFormSubmit
 }
-export function RegisterAdminForm(props: RegisterAdminFormProps) {
+export function RegisterMasterForm(props: RegisterMasterFormProps) {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [password2, setPassword2] = useState('')
     const { replace } = useRouter()
-    const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [password2Error, setPassword2Error] = useState('')
 
@@ -27,8 +27,6 @@ export function RegisterAdminForm(props: RegisterAdminFormProps) {
         <form
             className='flex flex-col gap-1 p-10'
             action={async e => {
-                const password = e.get('password') as string
-                const password2 = e.get('password2') as string
                 if (!password.match(/[A-Z]/g)) return setPasswordError('La contrasenia debe tener al menos una mayuscula')
                 if (!password.match(/[a-z]/g)) return setPasswordError('La contrasenia debe tener al menos una minuscula')
                 if (!password.match(/[0-9]/g)) return setPasswordError('La contrasenia debe tener al menos un numero')
@@ -38,48 +36,41 @@ export function RegisterAdminForm(props: RegisterAdminFormProps) {
 
                 if (password !== password2) return setPassword2Error('Passwords do not match')
                 const response = await props.submit({
-                    name: e.get('name') as string,
-                    email: e.get('email') as string,
+                    name,
+                    email,
                     password,
-                    cinema_id: e.get('cinema') as string
                 })
-                // check if user already exists
-                if (response.status === 'error' && response.message ===  'User already exist')
-                    return setEmailError('User already exist')
-                else if (response.status === 'error' && response.message === 'Cinema not found')
-                    return alert('Cinema not found')
-                else if (response.status === 'error')
-                    return alert('An unexpected error occurred')
+                if (response.status === 'error') alert(response.message)
                 else replace('/system')
             }}>
-            <select
-                name="cinema"
-            >
-                {props.cinemas.map(cinema => (
-                    <option key={cinema.id} value={cinema.id}>{cinema.name}</option>
-                ))}
-            </select>
             <Input
                 placeholder='Name'
                 type="text"
                 required
+                onInput={e => setName(e.currentTarget.value)}
+                value={name}
             />
             <Input
                 placeholder='Email'
                 type="email"
                 required
-                error={emailError}
+                onInput={e => setEmail(e.currentTarget.value)}
+                value={email}
             />
             <Input
                 type="password"
                 placeholder='Password'
                 required
+                onInput={e => setPassword(e.currentTarget.value)}
+                value={password}
                 error={passwordError}
             />
             <Input
                 placeholder='Confirm Password'
                 type="password"
                 required
+                onInput={e => setPassword2(e.currentTarget.value)}
+                value={password2}
                 error={password2Error}
             />
             <SubmitPrimaryInput
