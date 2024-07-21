@@ -1,12 +1,11 @@
 import { prisma, snowflake } from '@/lib/db'
-import { redirect } from 'next/navigation'
 import { RegisterMasterForm, RegisterMasterFormSubmit } from './RegisterMasterForm'
 import { hash } from 'bcrypt'
 import { Role } from '@prisma/client'
+import { onlyRole } from '@/lib/auth'
 
 export default async function WelcomePage() {
-    const employees = await prisma.employees.findFirst({})
-    if (employees) return redirect('/system')
+    await onlyRole(Role.MASTER)
 
     const registerMaster: RegisterMasterFormSubmit = async (data) => {
         'use server'

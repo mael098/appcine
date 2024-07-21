@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getSessionPayload } from '@/lib/auth'
+import { getLikeRole, getSessionPayload } from '@/lib/auth'
 import { COOKIE } from '@/lib/constants'
-import { getLikeRole } from '@/lib/roles'
 import { cookies } from 'next/headers'
 
 const MasterRoutes = []

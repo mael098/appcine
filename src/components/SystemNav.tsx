@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { SystemNavLikeRole } from './SystemNavLikeRole'
-import { getAuthenticatedUser } from '@/lib/auth'
-import { getLikeRoleProbables } from '@/lib/roles'
+import { getAuthenticatedUser, getLikeRoleProbables } from '@/lib/auth'
 
 export interface NavOptions {
     name: string,
