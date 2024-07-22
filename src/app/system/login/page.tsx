@@ -12,16 +12,9 @@ interface LoginPageProps {
         redirect?: string
     }
 }
-let count = 0
 export default async function LoginPage(props: LoginPageProps) {
-    const c = count++
-    console.log('p', props, c)
+    if (!await prisma.employees.count()) return redirect('/system/welcome')
 
-    const employees = await prisma.employees.count()
-    console.log('e', employees, c)
-
-    if (!employees) return redirect('/system/welcome')
-    console.log('no', c)
     const submit: LoginFormAction = async ({ email, password }) => {
         'use server'
         const session = await prisma.employees.findUnique({
