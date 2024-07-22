@@ -59,7 +59,7 @@ export function SubmitPrimaryInput(props: InputProps) {
 
 export function SubmitInput(props: InputProps) {
     return (
-        <input {...props} className="bg-lime-500 p-2 rounded-md hover:bg-lime-700 valid:text-center" />
+        <input {...props} type='submit' className="bg-lime-500 p-2 rounded-md hover:bg-lime-700 valid:text-center transition-all cursor-pointer" />
     )
 }
 

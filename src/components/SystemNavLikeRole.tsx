@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation'
 import { useCookies } from 'react-cookie'
 
 export interface SystemNavLikeRoleProps {
-    current: Role
     roles: Role[]
 }
 export function SystemNavLikeRole(prop: SystemNavLikeRoleProps) {
     const router = useRouter()
-    const [, setCookie] = useCookies([COOKIE.ADMIN_LIKE])
+    const [cookies, setCookie] = useCookies([COOKIE.ADMIN_LIKE])
 
     return (
         <form>
@@ -21,7 +20,7 @@ export function SystemNavLikeRole(prop: SystemNavLikeRoleProps) {
                     setCookie(COOKIE.ADMIN_LIKE, e.currentTarget.value)
                     router.refresh()
                 }}
-                defaultValue={prop.current}
+                defaultValue={cookies[COOKIE.ADMIN_LIKE]}
             >
                 {prop.roles.map((role, i) => (
                     <option key={i} defaultValue={role} >{role}</option>

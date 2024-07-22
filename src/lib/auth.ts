@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
 import { COOKIE, JWT_SECRET } from './constants'
 import { employees } from '@prisma/client'
+import { redirect } from 'next/navigation'
 
 /**
  *
@@ -26,14 +27,14 @@ export async function getSessionPayload(token: string) {
     }
 }
 
-export async function getSessionUser() {
+export async function getAuthenticatedUser() {
     const token = cookies().get(COOKIE.SESSION)?.value
     console.log()
 
-    if (!token) return null
+    if (!token) return redirect('/system/login')
     try {
         return (await getSessionPayload(token)).payload
     } catch {
-        return null
+        redirect('/system/login')
     }
 }
