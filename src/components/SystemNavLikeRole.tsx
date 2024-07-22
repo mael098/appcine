@@ -9,7 +9,7 @@ export interface SystemNavLikeRoleProps {
 }
 export function SystemNavLikeRole(prop: SystemNavLikeRoleProps) {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE.ADMIN_LIKE])
+    const [cookies, setCookie] = useCookies()
 
     return (
         <form>
@@ -23,7 +23,7 @@ export function SystemNavLikeRole(prop: SystemNavLikeRoleProps) {
                 defaultValue={cookies[COOKIE.ADMIN_LIKE]}
             >
                 {prop.roles.map((role, i) => (
-                    <option key={i} defaultValue={role} >{role}</option>
+                    <option key={i} value={role} >{role}</option>
                 ))}
             </select>
         </form>

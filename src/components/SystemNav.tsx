@@ -5,6 +5,8 @@ import { getLikeRoleProbables, getSessionPayload } from '@/lib/auth'
 import { cookies } from 'next/headers'
 import { COOKIE } from '@/lib/constants'
 import { Role } from '@prisma/client'
+import { GetCinemaAction, SystemNavLikeCinema } from './SystemNavLikeCinema'
+import { prisma } from '@/lib/db'
 
 export interface NavOptions {
     name: string,
@@ -15,6 +17,12 @@ export interface SystemNavProps {
 }
 export async function SystemNav(prop: SystemNavProps) {
     const { payload } = await getSessionPayload(cookies().get(COOKIE.SESSION)?.value ?? '').catch(() => ({ payload: null }))
+
+    // server action que le proporcionara la informacion al compoente de cliente
+    const getCinemas: GetCinemaAction = async () => {
+        'use server'
+        return await prisma.cinemas.findMany()
+    }
 
     return (
         <nav className="flex bg-[#3BCC52] h-16 p-2 justify-between items-center px-4">
@@ -29,6 +37,10 @@ export async function SystemNav(prop: SystemNavProps) {
                 ))}
             </div>
             <div className="flex items-center gap-4">
+
+                {/* carga el componente pero la informacion la obtiene hasta despues del renderizado */}
+                {payload?.role === Role.MASTER && <SystemNavLikeCinema getCinemas={getCinemas} />}
+
                 <SystemNavLikeRole roles={getLikeRoleProbables(payload?.role??Role.SELLER)} />
                 <Link href='/system/logout'>
                     <svg className="w-8" fill="#000000" viewBox="0 0 56 56">

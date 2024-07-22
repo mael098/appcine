@@ -15,7 +15,9 @@ const OPTIONS: {
         { name: 'Create Cinema', link: '/system/new/cinema' },
         { name: 'Register Admin', link: '/system/new/admin' }
     ],
-    [Role.ADMIN]: [],
+    [Role.ADMIN]: [
+        { name: 'Create Room', link: '/system/new/room' },
+    ],
     [Role.PROMOTER]: [],
     [Role.SELLER]: [],
 }
@@ -39,16 +41,14 @@ export default async function SystemLayout({
     )
 
     return (
-        <html lang="en">
-            <body className={`${inter.className}`}>
-                <SystemNav
-                    options={[
-                        {name:'Dashboard',link:'/system'},
-                        ...OPTIONS[like]
-                    ]}
-                />
-                {children}
-            </body>
-        </html>
+        <>
+            <SystemNav
+                options={[
+                    {name:'Dashboard',link:'/system'},
+                    ...OPTIONS[like]
+                ]}
+            />
+            {children}
+        </>
     )
 }

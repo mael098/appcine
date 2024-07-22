@@ -6,5 +6,6 @@ export const JWT_SECRET = new TextEncoder().encode(process.env.NEXT_JWT_SECRET!)
 
 export const COOKIE = {
     SESSION: 'session',
-    ADMIN_LIKE: 'admin-like'
+    ADMIN_LIKE: 'admin-like',
+    CINEMA_ID: 'cinema-id',
 }
