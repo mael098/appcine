@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client/edge'
 import { Snowflake } from '@sapphire/snowflake'
 
 const snowflakeDate = new Date(process.env.NEXT_SNOWFLAKE_DATE??'2024-02-05')
@@ -17,9 +17,9 @@ if (process.env.NODE_ENV === 'production') {
     prisma = new PrismaClient()
 } else {
     // @ts-ignore
-    if (!global.prisma) global.prisma = new PrismaClient()
+    if (!global.edgedb) global.edgedb = new PrismaClient()
     // @ts-ignore
-    prisma = global.prisma
+    prisma = global.edgedb
 }
 export {
     prisma
