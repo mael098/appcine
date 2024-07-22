@@ -29,7 +29,7 @@ export function RegisterCinemaForm(prop: RegisterCinemaFormProps) {
                     latitude: parseFloat(e.get('latitude') as string),
                     longitude: parseFloat(e.get('longitude') as string),
                 })
-                if (response.status === 'error' && response.message === 'cinema already exists')
+                if (response.status === 'error' && response.message === 'Cinema already exists')
                     return setNameError('El cine ya existe')
                 if (response.status === 'error')
                     return alert('An unexpected error occurred')
