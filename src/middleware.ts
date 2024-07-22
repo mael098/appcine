@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getSessionPayload } from '@/lib/auth'
+import { NextRequest } from 'next/server'
+import { getLikeRole, getSessionPayload } from '@/lib/auth'
 import { COOKIE } from '@/lib/constants'
-import { getLikeRole } from '@/lib/roles'
 import { cookies } from 'next/headers'
-
-const MasterRoutes = []
-const AdminRoutes = ['/new/room']
 
 export async function middleware(request: NextRequest) {
     const session = request.cookies.get(COOKIE.SESSION)?.value

@@ -1,7 +1,6 @@
 import { NavOptions, SystemNav } from '@/components/SystemNav'
-import { getSessionPayload } from '@/lib/auth'
+import { getLikeRole, getSessionPayload } from '@/lib/auth'
 import { COOKIE } from '@/lib/constants'
-import { getLikeRole } from '@/lib/roles'
 import { Role } from '@prisma/client'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -13,7 +12,8 @@ const OPTIONS: {
     [key in Role]: NavOptions[]
 } = {
     [Role.MASTER]: [
-        { name: 'Create Cinema', link: '/system/new/cinema' }
+        { name: 'Create Cinema', link: '/system/new/cinema' },
+        { name: 'Register Admin', link: '/system/new/admin' }
     ],
     [Role.ADMIN]: [],
     [Role.PROMOTER]: [],

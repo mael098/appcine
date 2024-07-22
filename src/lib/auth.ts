@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
 import { COOKIE, JWT_SECRET } from './constants'
-import { employees } from '@prisma/client'
+import { employees, Role } from '@prisma/client'
 import { redirect } from 'next/navigation'
 
 /**
@@ -37,4 +37,29 @@ export async function getAuthenticatedUser() {
     } catch {
         redirect('/system/login')
     }
+}
+
+export async function onlyRole(role: Role) {
+    const user = await getAuthenticatedUser()
+    const like = getLikeRole(user.role, cookies().get(COOKIE.ADMIN_LIKE)?.value ?? '')
+    if (like !== role) return redirect('/system')
+}
+
+const ROLE_VALUE = {
+    [Role.MASTER]: 3,
+    [Role.ADMIN]: 2,
+    [Role.PROMOTER]: 1,
+    [Role.SELLER]: 0
+}
+
+export function getLikeRole(base: Role, like: string): Role {
+    if (!(<string[]>Object.values(Role)).includes(like)) return base
+    const likeValue = ROLE_VALUE[like as Role]
+    const baseValue = ROLE_VALUE[base]
+    if (likeValue <= baseValue) return like as Role
+    return base
+}
+
+export function getLikeRoleProbables(base: Role): Role[] {
+    return Object.values(Role).filter(role => ROLE_VALUE[role] <= ROLE_VALUE[base])
 }

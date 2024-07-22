@@ -1,11 +1,10 @@
-import { getAuthenticatedUser } from '@/lib/auth'
+import { getAuthenticatedUser, getLikeRole } from '@/lib/auth'
 import { COOKIE } from '@/lib/constants'
 import { notFound } from 'next/navigation'
 import { AdminDashboard } from './AdminDashboard'
 import { PromoterDashboard } from './PromoterDashboard'
 import { SellerDashboard } from './SellerDashboard'
 import { cookies } from 'next/headers'
-import { getLikeRole } from '@/lib/roles'
 import { Role } from '@prisma/client'
 import { MasterDashboard } from './MasterDashboard'
 
