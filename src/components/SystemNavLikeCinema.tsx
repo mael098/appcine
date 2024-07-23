@@ -2,7 +2,7 @@
 import { COOKIE } from '@/lib/constants'
 import { cinemas } from '@prisma/client'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 
 export interface GetCinemaAction {
@@ -20,12 +20,25 @@ export function SystemNavLikeCinema({getCinemas}: SystemNavLikeCinemaProps) {
     const [cinemas, setCinemas] = useState<cinemas[]>([])
 
     useEffect(() => {
+        if (cinemas.length) {
+            if (!cookies[COOKIE.CINEMA_ID]) {
+                setCookie(COOKIE.CINEMA_ID, cinemas[0].id)
+            } else {
+                const cinema = cinemas.find(cinema => cinema.id === cookies[COOKIE.CINEMA_ID])
+                if (!cinema) setCookie(COOKIE.CINEMA_ID, cinemas[0].id)
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cinemas, setCookie])
+
+    useEffect(() => {
         const exec = async () => {
             // despues del renderizado obtiene la informacion del servidor
             setCinemas(await getCinemas())
         }
         exec()
-    }, [getCinemas])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []) // solo se ejecuta una vez
 
     return (
         <form>

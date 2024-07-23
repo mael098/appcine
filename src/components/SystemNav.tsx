@@ -17,6 +17,7 @@ export interface SystemNavProps {
 }
 export async function SystemNav(prop: SystemNavProps) {
     const { payload } = await getSessionPayload(cookies().get(COOKIE.SESSION)?.value ?? '').catch(() => ({ payload: null }))
+    const like = cookies().get(COOKIE.ADMIN_LIKE)?.value
 
     // server action que le proporcionara la informacion al compoente de cliente
     const getCinemas: GetCinemaAction = async () => {
@@ -39,7 +40,7 @@ export async function SystemNav(prop: SystemNavProps) {
             <div className="flex items-center gap-4">
 
                 {/* carga el componente pero la informacion la obtiene hasta despues del renderizado */}
-                {payload?.role === Role.MASTER && <SystemNavLikeCinema getCinemas={getCinemas} />}
+                {payload?.role === Role.MASTER && like !== Role.MASTER && <SystemNavLikeCinema getCinemas={getCinemas} />}
 
                 <SystemNavLikeRole roles={getLikeRoleProbables(payload?.role??Role.SELLER)} />
                 <Link href='/system/logout'>

@@ -30,11 +30,6 @@ export async function middleware(request: NextRequest) {
         const {role} = payload
         const like = getLikeRole(role, cookies().get(COOKIE.ADMIN_LIKE)?.value ?? '')
         res.cookies.set(COOKIE.ADMIN_LIKE, `${like}`)
-        // validate n set correct cinema in cookie
-        if (like !== Role.MASTER && payload.role === Role.MASTER) {
-            const cinema_id = cookies().get(COOKIE.CINEMA_ID)?.value ?? ''
-            // TODO: api?
-        }
         return res
     } catch (error) {
         if ((error as Error).message !== 'Invalid token') console.log('middleware error message', error)
