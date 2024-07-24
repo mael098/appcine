@@ -141,6 +141,8 @@ model room {
   name         String
   cinema_id    String
   description  String
+  width        Int
+  length       Int
   functions    functions[]
   cinemas      cinemas     @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
   seats        seats[]

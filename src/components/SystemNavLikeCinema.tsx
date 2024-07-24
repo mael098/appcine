@@ -22,10 +22,14 @@ export function SystemNavLikeCinema({getCinemas}: SystemNavLikeCinemaProps) {
     useEffect(() => {
         if (cinemas.length) {
             if (!cookies[COOKIE.CINEMA_ID]) {
-                setCookie(COOKIE.CINEMA_ID, cinemas[0].id)
+                setCookie(COOKIE.CINEMA_ID, cinemas[0].id, {
+                    path: '/',
+                })
             } else {
                 const cinema = cinemas.find(cinema => cinema.id === cookies[COOKIE.CINEMA_ID])
-                if (!cinema) setCookie(COOKIE.CINEMA_ID, cinemas[0].id)
+                if (!cinema) setCookie(COOKIE.CINEMA_ID, cinemas[0].id, {
+                    path: '/',
+                })
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,7 +50,9 @@ export function SystemNavLikeCinema({getCinemas}: SystemNavLikeCinemaProps) {
                 name="cinema"
                 className="bg-white border border-gray-300 p-2 rounded"
                 onChange={e => {
-                    setCookie(COOKIE.CINEMA_ID, e.currentTarget.value)
+                    setCookie(COOKIE.CINEMA_ID, e.currentTarget.value, {
+                        path: '/',
+                    })
                     router.refresh()
                 }}
                 defaultValue={cookies[COOKIE.CINEMA_ID]}

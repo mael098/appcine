@@ -17,7 +17,9 @@ export function SystemNavLikeRole(prop: SystemNavLikeRoleProps) {
                 name="role"
                 className="bg-white border border-gray-300 p-2 rounded"
                 onChange={e => {
-                    setCookie(COOKIE.ADMIN_LIKE, e.currentTarget.value)
+                    setCookie(COOKIE.ADMIN_LIKE, e.currentTarget.value, {
+                        path: '/',
+                    })
                     router.refresh()
                 }}
                 defaultValue={cookies[COOKIE.ADMIN_LIKE]}
