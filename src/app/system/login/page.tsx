@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import LoginForm from './LoginForm'
+import LoginForm, { LoginFormAction } from './LoginForm'
 import { cookies } from 'next/headers'
 import { compare } from 'bcrypt'
 import { SignJWT } from 'jose'
@@ -7,11 +7,15 @@ import { redirect } from 'next/navigation'
 import { JWT_SECRET } from '@/lib/constants'
 import { prisma } from '@/lib/db'
 
-export default async function Login() {
-    const employees = await prisma.employees.count()
+interface LoginPageProps {
+    searchParams: {
+        redirect?: string
+    }
+}
+export default async function LoginPage(props: LoginPageProps) {
+    if (!await prisma.employees.count()) return redirect('/system/welcome')
 
-    if (!employees) return redirect('/system/welcome')
-    const submit = async ({ email, password }: { email: string, password: string }) => {
+    const submit: LoginFormAction = async ({ email, password }) => {
         'use server'
         const session = await prisma.employees.findUnique({
             where: {
@@ -22,15 +26,15 @@ export default async function Login() {
 
         if (!session) {
             return {
-                error: 'invalid credentials',
-                status: 'failed'
+                message: 'Invalid credentials',
+                status: 'error'
             }
         }
         const { cinema_id, created_at, id, name, active, role, password: passwordDb } = session
         if (!await compare(password, passwordDb)) {
             return {
-                error: 'invalid credentials',
-                status: 'failed'
+                message: 'Invalid credentials',
+                status: 'error'
             }
         }
         const expires = new Date()
@@ -44,13 +48,16 @@ export default async function Login() {
                 .setExpirationTime('1d')
                 .sign(JWT_SECRET)
         })
-        redirect('/system')
+        return {
+            message: 'Welcome',
+            status: 'success'
+        }
     }
     return (
         <div className="w-screen h-screen grid justify-center items-center">
             <main className="grid grid-cols-2 justify-center items-center bg-green-200 h-96 w-[700px] rounded-2xl shadow-green-900 shadow-2xl">
                 <Image priority src='/Premium Photo _ Vintage cinema videocamera.jpg' alt='fondo' width={380} height={100} className='col-span-1 w-full h-full rounded-l-2xl' />
-                <LoginForm submit={submit} />
+                <LoginForm redirect={props.searchParams.redirect} action={submit} />
             </main>
         </div>
     )

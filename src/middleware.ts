@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getSessionPayload } from './lib/auth'
-import { COOKIE } from './lib/constants'
-
-const MasterRoutes = []
-const AdminRoutes = ['/new/room']
+import { NextRequest } from 'next/server'
+import { getLikeRole, getSessionPayload } from '@/lib/auth'
+import { COOKIE } from '@/lib/constants'
+import { cookies } from 'next/headers'
 
 export async function middleware(request: NextRequest) {
     const session = request.cookies.get(COOKIE.SESSION)?.value
+    // auth
     if (request.nextUrl.pathname === '/system/login') {
         if (!session) return NextResponse.next()
         try {
@@ -21,24 +20,21 @@ export async function middleware(request: NextRequest) {
         const res = NextResponse.redirect(new URL('/system/login', request.url))
         res.cookies.delete(COOKIE.SESSION)
         return res
-    } else if (request.nextUrl.pathname === '/system/welcome') {
-        return NextResponse.next()
-    } else {
-        if (!session) return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
-        try {
-            const {payload} = await getSessionPayload(session)
-            const {role} = payload
-            let likecookie = parseInt(request.cookies.get(COOKIE.ADMIN_LIKE)?.value??'')
-            // if (isNaN(likecookie) || likecookie < role) likecookie = role
-            // TODO: uncomment the above line
-            const res = NextResponse.next()
-            res.cookies.set(COOKIE.ADMIN_LIKE, `${likecookie}`)
-            return res
-        } catch (error) {
-            if ((error as Error).message !== 'Invalid token') console.log('middleware error message', error)
-            return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
-        }
     }
+    if (!session) return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
+    try {
+        // validate n set correct role in cookie
+        const {payload} = await getSessionPayload(session)
+        const {role} = payload
+        const like = getLikeRole(role, cookies().get(COOKIE.ADMIN_LIKE)?.value ?? '')
+        const res = NextResponse.next()
+        res.cookies.set(COOKIE.ADMIN_LIKE, `${like}`)
+        return res
+    } catch (error) {
+        if ((error as Error).message !== 'Invalid token') console.log('middleware error message', error)
+        return NextResponse.redirect(new URL('/system/login?redirect='+request.nextUrl.pathname, request.url))
+    }
+
 }
 
 export const config = {
