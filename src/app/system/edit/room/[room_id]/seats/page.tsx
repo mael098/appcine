@@ -8,7 +8,7 @@ interface SeatsPageProps {
     }
 }
 export default async function SeatsPage({params: {room_id}}: SeatsPageProps) {
-    const createSeatsGroup = async () => {
+    const addSeatsGroup = async () => {
         'use server'
         const groups = await prisma.seatGroup.findMany({
             where: {
@@ -55,7 +55,7 @@ export default async function SeatsPage({params: {room_id}}: SeatsPageProps) {
     return (
         <SeatsCanvas
             room={room}
-            createSeatGroup={createSeatsGroup}
+            addSeatGroup={addSeatsGroup}
         />
     )
 }
