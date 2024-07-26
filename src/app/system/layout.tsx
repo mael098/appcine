@@ -13,10 +13,11 @@ const OPTIONS: {
 } = {
     [Role.MASTER]: [
         { name: 'Create Cinema', link: '/system/new/cinema' },
-        { name: 'Register Admin', link: '/system/new/admin' }
+        { name: 'Register Admin', link: '/system/new/admin' },
     ],
     [Role.ADMIN]: [
         { name: 'Create Room', link: '/system/new/room' },
+        { name: 'create Promotor', link: '/system/new/promoter' },
     ],
     [Role.PROMOTER]: [],
     [Role.SELLER]: [],
@@ -33,18 +34,18 @@ export default async function SystemLayout({
     children: ReactNode;
 }>) {
     const { payload } = await getSessionPayload(
-        cookies().get(COOKIE.SESSION)?.value??''
-    ).catch(() => ({payload: null}))
+        cookies().get(COOKIE.SESSION)?.value ?? ''
+    ).catch(() => ({ payload: null }))
     const like = getLikeRole(
-        payload?.role??Role.SELLER,
-        cookies().get(COOKIE.ADMIN_LIKE)?.value??''
+        payload?.role ?? Role.SELLER,
+        cookies().get(COOKIE.ADMIN_LIKE)?.value ?? ''
     )
 
     return (
         <>
             <SystemNav
                 options={[
-                    {name:'Dashboard',link:'/system'},
+                    { name: 'Dashboard', link: '/system' },
                     ...OPTIONS[like]
                 ]}
             />
