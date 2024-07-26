@@ -4,14 +4,20 @@ import { hash } from 'bcrypt'
 import { Role } from '@prisma/client'
 import { onlyRole } from '@/lib/auth'
 import { getAuthenticatedUser } from '@/lib/auth'
+import { cookies } from 'next/headers'
+import { COOKIE } from '@/lib/constants'
 
 export default async function NewAdminPage() {
     await onlyRole(Role.ADMIN)
     const user = await getAuthenticatedUser()
-    const cinemaid =  user.cinema_id
+    const cinema_id =  user.cinema_id ?? cookies().get(COOKIE.CINEMA_ID)?.value
 
     const action: RegisterEmployeeFormSubmit = async (data) => {
         'use server'
+        if (!cinema_id) return {
+            status: 'error',
+            message: 'No cinema found'
+        }
 
         // check if user exists
         const user = await prisma.employees.findFirst({
@@ -29,8 +35,8 @@ export default async function NewAdminPage() {
                 name: data.name,
                 email: data.email,
                 password: await hash(data.password, 10),
-                role: data.role,
-                cinema_id: cinemaid
+                role: Role.PROMOTER,
+                cinema_id
             }
         })
         return {

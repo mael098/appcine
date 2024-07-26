@@ -1,6 +1,6 @@
 'use client'
 
-import { Input, SubmitInput } from '@/components/Input'
+import { Input, SubmitPrimaryInput } from '@/components/Input'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -56,7 +56,7 @@ export function RegisterCinemaForm(prop: RegisterCinemaFormProps) {
                 name='longitude'
                 step={0.0000001}
             />
-            <SubmitInput value='Registrar' />
+            <SubmitPrimaryInput value='Registrar' />
         </form>
     )
 }
