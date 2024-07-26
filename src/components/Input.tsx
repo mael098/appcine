@@ -96,3 +96,28 @@ export function InsertarImag(props: InputProps) {
         <input {...props} type="file" className="bg-slate-200 w-60 h-7 valid:text-transparent" accept='.jpg,.png,.wepg' />
     )
 }
+
+export interface RadioSwitchInputsProps {
+    options: { name: string, value: string }[]
+    name?: string
+}
+export function RadioSwitchInputs(props: RadioSwitchInputsProps) {
+    return (
+        <div
+            className='flex justify-evenly'
+        >
+            {props.options.map((option, i) => (
+                <label
+                    key={i}
+                    className={`
+                        flex-1 text-center bg-white border border-black p-2 cursor-pointer
+                        has-[input:checked]:bg-black has-[input:checked]:text-white
+                    `}
+                >
+                    <input type="radio" defaultChecked={!i} name={props.name} className='hidden' value={option.value} />
+                    {option.name}
+                </label>
+            ))}
+        </div>
+    )
+}

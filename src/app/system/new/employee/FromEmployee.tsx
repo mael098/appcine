@@ -1,21 +1,22 @@
 'use client'
 
-import { Input, SubmitPrimaryInput } from '@/components/Input'
-import { cinemas } from '@prisma/client'
+import { Input, RadioSwitchInputs, SubmitPrimaryInput } from '@/components/Input'
+import { Role } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export interface RegisterAdminFormSubmit {
+export interface RegisterEmployeeFormSubmit {
     (props: {
         name: string;
         email: string;
         password: string;
+        role: Role;
     }): Promise<{ status: 'error' | 'succes', message: string }>;
 }
-export interface RegisterAdminFormProps {
-    submit: RegisterAdminFormSubmit
+export interface RegisterEmployeeFormProps {
+    submit: RegisterEmployeeFormSubmit
 }
-export function RegisterAdminForm(props: RegisterAdminFormProps) {
+export function RegisterEmployeeForm(props: RegisterEmployeeFormProps) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
@@ -40,11 +41,22 @@ export function RegisterAdminForm(props: RegisterAdminFormProps) {
                     name: e.get('name') as string,
                     email,
                     password,
+                    role: e.get('role') as Role,
                 })
                 if (response.status === 'error' && response.message === 'Employee already exists') return setEmailError(response.message)
                 else if (response.status === 'error') return alert(response.message)
                 else push('/system')
             }}>
+            <RadioSwitchInputs
+                name='role'
+                options={[{
+                    name: 'Promoter',
+                    value: Role.PROMOTER,
+                }, {
+                    name: 'Seller',
+                    value: Role.SELLER,
+                }]}
+            />
             <Input
                 placeholder='Name'
                 name="name"
