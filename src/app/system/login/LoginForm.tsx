@@ -22,7 +22,7 @@ export default function LoginForm(prop: LoginFormProps) {
                     password: e.get('password') as string
                 })
                 if (r.status === 'error') alert(r.message)
-                // else router.push(prop.redirect || '/system')
+                else router.push(prop.redirect || '/system')
             }}
             className='col-span-1 flex flex-col gap-9 justify-center items-center'
         >
