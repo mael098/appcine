@@ -7,7 +7,12 @@ if [[ "$VERCEL_GIT_COMMIT_REF" == "main"  ]] ; then
   echo "✅ - main branch detected, building can proceed"
   exit 1;
 
-elif [[ "$VERCEL_GIT_COMMIT_REF" == "dev" ]] ; then
+elif [[ "$VERCEL_GIT_COMMIT_REF" != "dev-eli" || "$VERCEL_GIT_COMMIT_REF" != "dev-mael"  ]] ; then
+  # Don't build
+  echo "🛑 - Personal branch detected, build cancelled"
+  exit 0;
+
+elif [[ "$VERCEL_GIT_COMMIT_REF" =~ ^dev(-.*)?$ ]] ; then
   # Proceed with the build
   echo "✅ - dev branch detected, building can proceed"
   exit 1;
