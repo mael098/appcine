@@ -5,11 +5,12 @@ import { Role } from '@prisma/client'
 import { onlyRole } from '@/lib/auth'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { cookies } from 'next/headers'
+import { COOKIE } from '@/lib/constants'
 
 export default async function NewAdminPage() {
     await onlyRole(Role.ADMIN)
     const user = await getAuthenticatedUser()
-    const cinema_id =  user.cinema_id ?? cookies().get('cinema_id')?.value
+    const cinema_id =  user.cinema_id ?? cookies().get(COOKIE.CINEMA_ID)?.value
 
     const action: RegisterAdminFormSubmit = async (data) => {
         'use server'
