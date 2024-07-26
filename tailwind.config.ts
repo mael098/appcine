@@ -27,6 +27,9 @@ const config: Config = {
                     900: '#353d45',
                     950: '#23292e',
                 },
+            },
+            animation: {
+                'tooltip': 'tooltip 0.5s ease-in-out',
             }
         },
     },
