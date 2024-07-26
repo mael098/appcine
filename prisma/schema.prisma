@@ -141,9 +141,11 @@ model room {
   name         String
   cinema_id    String
   description  String
+  width        Int
+  length       Int
   functions    functions[]
   cinemas      cinemas     @relation(fields: [cinema_id], references: [id], onDelete: Cascade)
-  seats        seats[]
+  SeatGroup    SeatGroup[]
 }
 
 model sale_seats {
@@ -169,14 +171,22 @@ model sales {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model seats {
-  id         String       @id
+  id          String       @id
+  disponible  Boolean      @default(true)
+  name        String
+  seatGroupId String?
+  sale_seats  sale_seats[]
+  SeatGroup   SeatGroup?   @relation(fields: [seatGroupId], references: [id])
+}
+
+model SeatGroup {
+  id         String  @id
+  disponible Boolean @default(true)
   room_id    String
-  x          Int          @db.SmallInt
-  y          Int          @db.SmallInt
-  size       Int          @db.SmallInt
-  disponible Boolean      @default(true)
-  sale_seats sale_seats[]
-  room       room         @relation(fields: [room_id], references: [id], onDelete: Cascade)
+  x          Int     @db.SmallInt
+  y          Int     @db.SmallInt
+  room       room    @relation(fields: [room_id], references: [id], onDelete: Cascade)
+  seats      seats[]
 }
 
 model users {
