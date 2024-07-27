@@ -27,9 +27,6 @@ const config: Config = {
                     900: '#353d45',
                     950: '#23292e',
                 },
-            },
-            animation: { //from 0 to 100 transition crossfade
-                'tooltip': 'tooltip 0.5s ease-in-out',
             }
         },
     },

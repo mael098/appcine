@@ -16,8 +16,7 @@ const OPTIONS: {
         { name: 'Register Admin', link: '/system/new/admin' },
     ],
     [Role.ADMIN]: [
-        { name: 'Create Room', link: '/system/new/room' },
-        { name: 'create Promotor', link: '/system/new/promoter' },
+        { name: 'Register Employee', link: '/system/new/employee' },
     ],
     [Role.PROMOTER]: [],
     [Role.SELLER]: [],
