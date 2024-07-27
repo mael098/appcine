@@ -2,10 +2,10 @@ import { NavOptions, SystemNav } from '@/components/SystemNav'
 import { getLikeRole, getSessionPayload } from '@/lib/auth'
 import { COOKIE } from '@/lib/constants'
 import { Role } from '@prisma/client'
-import type { Metadata } from 'next'
+import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
-import type { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 const OPTIONS: {

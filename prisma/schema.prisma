@@ -92,13 +92,21 @@ model movies {
   id             String          @id
   created_at     DateTime        @default(now()) @db.Timestamp(6)
   name           String          @unique
-  duration       Int             @db.SmallInt
-  classification String
+  duration       Int
+  classification Classification
   sinopsis       String
   director       String
   image          String
   cover          String
   movie_formats  movie_formats[]
+}
+
+enum Classification {
+  G
+  PG
+  PG13
+  R
+  NC17
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
