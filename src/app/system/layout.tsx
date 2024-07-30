@@ -18,7 +18,10 @@ const OPTIONS: {
     [Role.ADMIN]: [
         { name: 'Register Employee', link: '/system/new/employee' },
     ],
-    [Role.PROMOTER]: [],
+    [Role.PROMOTER]: [
+        { name: 'create movie', link: '/system/new/movie' },
+        { name: 'edit movie', link: '/system/movies/edit' },
+    ],
     [Role.SELLER]: [],
 }
 

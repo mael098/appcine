@@ -1,33 +1,50 @@
-import { Input, SubmitPrimaryInput, TextArea, InsertarImag } from "@/components/Input";
+'use client'
+import { Input, SubmitPrimaryInput, TextArea, InsertarImag, RadioSwitchInputs } from "@/components/Input";
 import { Classification } from "@prisma/client";
-import { CLASSIFICATIOS } from '@/lib/constants'
-import { useState } from "react";
-export interface FormmoviesProps {
-    (props: {
-        nombre: string,
-        duraction: string,
-        clasification: Classification,
-        sinopsis: string,
-        director: string,
-        image: string,
-        cover: string
-    }): Promise<{ status: 'error' | 'usses', message: string }>
+import { CLASSIFICATIONS } from '@/lib/constants'
+
+export interface FormMoviesAction {
+    (props: FormData): Promise<{ status: 'error' | 'succes', message: string }>
 }
-
-
-export default function Formmovies() {
-    const [Formmovies, setFordmovie] = useState('')
-    const
+export interface FormmoviesProps {
+    action: FormMoviesAction
+}
+export function FormMovies({ action }: FormmoviesProps) {
 
     return (
-        <form action="">
-            <Input type="text" placeholder="Nombre de la pelicula" value={FormData.} />
-            <Input type="text" placeholder="Duracion" />
-            <Input type="text" placeholder="Clasificacion" />
-            <TextArea placeholder="Sinopsis" />
-            <Input type="text" placeholder="Director" />
-            <InsertarImag />
-            <SubmitPrimaryInput type="submit" value="Registrar" />
+        <form
+            action={async formData => {
+                const request = await action(formData)
+            }}
+            className="flex flex-col gap-2"
+        >
+            <Input name="name" type="text" placeholder="Nombre de la pelicula" required />
+            <Input name="duration" type="text" placeholder="Duracion" required />
+            <RadioSwitchInputs
+                required
+                name="clasification"
+                options={[{
+                    name: CLASSIFICATIONS[Classification.G],
+                    vlue: Classification.G
+                }, {
+                    name: CLASSIFICATIONS[Classification.PG],
+                    value: Classification.PG
+                }, {
+                    name: CLASSIFICATIONS[Classification.PG13],
+                    value: Classification.PG13
+                }, {
+                    name: CLASSIFICATIONS[Classification.R],
+                    value: Classification.R
+                }, {
+                    name: CLASSIFICATIONS[Classification.NC17],
+                    value: Classification.NC17
+                }]}
+            />
+            <TextArea name="sinopsis" placeholder="Sinopsis" required />
+            <Input name="director" type="text" placeholder="Director" required />
+            <InsertarImag name="image" required />
+            <InsertarImag name="cover" placeholder="Cover" required />
+            <SubmitPrimaryInput value="Registrar" />
         </form>
     )
 }

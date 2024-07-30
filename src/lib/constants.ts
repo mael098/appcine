@@ -12,7 +12,7 @@ export const COOKIE = {
     CINEMA_ID: 'cinema-id',
 }
 
-const CLASSIFICATIONS = {
+export const CLASSIFICATIONS = {
     [Classification.G]: 'G',
     [Classification.PG]: 'PG',
     [Classification.PG13]: 'PG-13',
